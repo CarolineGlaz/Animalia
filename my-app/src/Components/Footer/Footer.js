@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="contentFooter">
       <div className="texte-footer">
-        © Animalerie. Tous droits réservés.
+        Animalia.
       </div>
     </footer>
   );
