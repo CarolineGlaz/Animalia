@@ -30,13 +30,14 @@ class ProduitController extends AbstractController
 
 
         $encodedImages = [];
-        foreach ($images as $index => $image) {
-            $encodedImages[$index] = base64_encode(stream_get_contents($image->getData()));
+        foreach ($images as $image) {
+            $encodedImages[$image->getId()] = base64_encode(stream_get_contents($image->getData()));
         }
 
         $response = new JsonResponse([
             'idProduit' => $idProduit,
-            'images' => $encodedImages,
+            'encodedImages' => $encodedImages,
+            'images' => $images,
         ]);
 
         return $response;
@@ -49,7 +50,7 @@ class ProduitController extends AbstractController
 
         $produit = $repositoryProduit->find($id);
         if ($produit === null) {
-            return new JsonResponse('Produit introuvable', 404);
+            return new JsonResponse(['message' => 'Produit introuvable'], 404);
         }
 
         $response = new JsonResponse([

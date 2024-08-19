@@ -18,7 +18,7 @@ class Image
     public ?string $alt = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    public $data;
+    private $data;
 
     public function getId(): ?int
     {

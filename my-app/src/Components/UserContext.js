@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from '../AxiosConfig';
+// import axios from '../AxiosConfig';
 
 export const UserContext = createContext(); // Crée un contexte React pour gérer les informations utilisateur
 
