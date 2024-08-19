@@ -24,10 +24,15 @@ class PanierController extends AbstractController
     #[Route('/ajouter/panier', name: 'app_panier')]
     public function ajouterPanier(Request $request): JsonResponse
     {
+      $panierRepository = $this->entityManager->getRepository(Produits::class);
+      $produits = $panierRepository->findAll();
+
       $idUtilisateurs = 1;
       $idProduits = 4;
       $quantite = 1;
 
+      return new JsonResponse(['message' => "L'article a bien été ajouté au panier"], 200);
+    }
       
 
     //     $data = json_decode($request->getContent(), true);
@@ -62,9 +67,6 @@ class PanierController extends AbstractController
     //     $this->entityManager->persist($panierArticle);
     //     $this->entityManager->flush();
 
-       return new JsonResponse(['status' => "L'article a bien été ajouté au panier"], 200);
-    }
-
     // #[Route('/api/panier', name: 'api_panier')]
     // public function getCart(): JsonResponse
     // {
@@ -80,7 +82,7 @@ class PanierController extends AbstractController
         $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
 
         if (!$panierArticle) {
-            return new JsonResponse(['status' => 'Article non trouvé'], 404);
+            return new JsonResponse(['message' => 'Article non trouvé'], 404);
         }
 
         $this->entityManager->remove($panierArticle);

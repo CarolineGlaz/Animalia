@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Produits;
 use App\Repository\ProduitImageRepository;
 
+#[Route('/produit')]
 class ProduitController extends AbstractController
 {
     private $entityManager;
@@ -23,7 +24,7 @@ class ProduitController extends AbstractController
 
 
 
-    #[Route('/produit/image/{idProduit}', name: 'app_image')]
+    #[Route('/image/{idProduit}', name: 'app_image')]
     public function image(int $idProduit): Response
     {
         $images = $this->produitImageRepository->findImagesByProduit($idProduit);
@@ -43,7 +44,7 @@ class ProduitController extends AbstractController
         return $response;
     }
 
-    #[Route('/produit/data/{id}', name: 'app_produit')]
+    #[Route('/data/{id}', name: 'app_produit')]
     public function index(int $id): Response
     {
         $repositoryProduit = $this->entityManager->getRepository(Produits::class);
