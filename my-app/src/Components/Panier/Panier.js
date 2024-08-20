@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import './Panier.css'
-import { Axios } from 'axios'
-
-const exempleListProduit = [
-  { id: 4, nom: "Truc" },
-  { id: 3, nom: "Bidule" },
-  { id: 10, nom: "Chouette" }
-]
-
-
+import axios from 'axios'
 
 const Panier = () => {
-  const [produits, setProduits] = useState(exempleListProduit)
-  // const [chargement, setChargement] = useState(true)
-  // const [erreur, setErreur] = useState(null)
+  const [panier, setPanier] = useState([])
+
+  useEffect(() => {
+    axios.get(`https://127.0.0.1:8000/panier/get`)
+      .then((res => {
+        let json = res.data
+        setPanier(json)
+      }))
+      .catch((error) => {
+        console.error(error);
+      })
+  }, [])
 
   return (
     <div>
       <h1>Panier</h1>
       {
-        produits ? <ListPanier produits={produits} />
+        panier ? <ListPanier panier={panier} />
           : <p>Aucun produit dans le panier</p>
       }
 
@@ -30,17 +31,67 @@ const Panier = () => {
 
 
 const ListPanier = (props) => {
-  return ( 
+  const [quantities, setQuantities] = useState({});
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    props.panier.forEach(element => {
+      handleQuantityChange(element.id, element.quantite);
+    });
+  }, [props.panier])
+
+  useEffect(() => {
+    setTotal(props.panier.map((element) => {
+      const quantity = quantities[element.id] || 0;
+      return quantity * element.produit.prix
+    })
+      .reduce((acc, value) => {
+        return acc + value;
+      }, 0)
+    )
+  }, [quantities, props.panier])
+
+  const handleQuantityChange = (id, value) => {
+    let number = isNaN(value) ?
+      value.replace(/\D/g, '')
+      : value
+    number = number < 0 ? '0' : number
+
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: number
+    }));
+  };
+
+
+  return (
     <div id="list-panier">
       {
-        props.produits.map((produit) => (
-          <div key={produit.id}>
-            <p>{produit.nom}</p>
+        props.panier.map((element) => (
+          <div key={element.id}>
+            <img src={element.produit.img} alt={element.produit.nom} />
+            <p>{element.produit.nom}</p>
+            <p>{element.produit.prix}€</p>
+            <input
+              name="quantities"
+              type="number"
+              value={quantities[element.id] || ''}
+              onChange={(event) => handleQuantityChange(element.id, event.target.value)}
+            />
+            <button onClick={() => putElement()}>Mettre à jour</button>
+            <button onClick={() => deleteElement()}>Supprimer</button>
           </div>
         ))
       }
+      <p id='prix-total'>Total : {total} €</p>
     </div>
-  )
+  );
+}
+
+const putElement = () => {
+}
+
+const deleteElement = () => {
 }
 
 

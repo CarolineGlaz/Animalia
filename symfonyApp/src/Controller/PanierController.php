@@ -23,7 +23,7 @@ class PanierController extends AbstractController
     }
 
 
-    #[Route('/get', name: 'get_panier')]
+    #[Route('/get', name: 'get_panier', methods: ['GET'])]
     public function getPanier(Request $request, PanierRepository $panierRepository): JsonResponse
     {
         $idUtilisateur = 1;
@@ -38,6 +38,36 @@ class PanierController extends AbstractController
         }
 
         return new JsonResponse($jsonResult, 200);
+    }
+
+    #[Route('/modifier/{id}', name: 'modifier_panier', methods: ['PUT'])]
+    public function modifierPanier(int $id): JsonResponse
+    {
+        $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
+
+        if (!$panierArticle) {
+            return new JsonResponse(['message' => 'Article non trouvé'], 404);
+        }
+
+        $this->entityManager->remove($panierArticle);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['status' => 'Article supprimé du panier'], 200);
+    }
+
+    #[Route('supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
+    public function supprimerPanier(int $id): JsonResponse
+    {
+        $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
+
+        if (!$panierArticle) {
+            return new JsonResponse(['message' => 'Article non trouvé'], 404);
+        }
+
+        $this->entityManager->remove($panierArticle);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['status' => 'Article supprimé du panier'], 200);
     }
 
 
@@ -81,19 +111,4 @@ class PanierController extends AbstractController
 
     //     return new JsonResponse($panierArticle);
     // }
-
-    #[Route('/panier/supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
-    public function supprimerPanier(int $id): JsonResponse
-    {
-        $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
-
-        if (!$panierArticle) {
-            return new JsonResponse(['message' => 'Article non trouvé'], 404);
-        }
-
-        $this->entityManager->remove($panierArticle);
-        $this->entityManager->flush();
-
-        return new JsonResponse(['status' => 'Article supprimé du panier'], 200);
-    }
 }

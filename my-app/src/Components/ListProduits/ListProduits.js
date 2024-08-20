@@ -3,7 +3,7 @@ import axios from 'axios';
 import './ListProduits.css';
 import ProduitCard from "../ProduitCard/ProduitCard";
 
-function Index() {
+const Index = () => {
   const [produits, setproduits] = useState([]);
 
   useEffect(() => {

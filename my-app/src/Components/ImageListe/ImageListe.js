@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 
 
-function ImageListe({ id }) {
+const ImageListe = ({ id }) => {
   const [images, setImages] = useState(null)
   const [chargement, setChargement] = useState(true)
   const [erreur, setErreur] = useState(null)
@@ -11,12 +11,13 @@ function ImageListe({ id }) {
 
   useEffect(() => {
     try {
-      axios.get(`https://127.0.0.1:8000/produit/image/${id}`).then((res => {
-        let json = res.data
-        setImages(json.encodedImages)
-        setImagesData(json.images)
-      })
-      )
+      axios.get(`https://127.0.0.1:8000/produit/image/${id}`)
+        .then((res => {
+          let json = res.data
+          setImages(json.encodedImages)
+          setImagesData(json.images)
+        })
+        )
     } catch (erreur) {
       setErreur("Erreur lors du chargement de l'image.")
       console.error('Erreur :', erreur)

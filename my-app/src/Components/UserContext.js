@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // import axios from '../AxiosConfig';
 
-export const UserContext = createContext(); // Crée un contexte React pour gérer les informations utilisateur
+//export const UserContext = createContext(); // Crée un contexte React pour gérer les informations utilisateur
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null); // Déclare un état local 'user' initialisé à null
@@ -17,8 +17,10 @@ export const UserProvider = ({ children }) => {
     }, []); // Le tableau vide en tant que second argument signifie que cet effet s'exécute uniquement une fois après le montage initial du composant
 
     return (
-        <UserContext.Provider value={user}>
+        <div>
+            {/* <UserContext.Provider value={user}> */}
             {children} {/* Rendu des composants enfants enveloppés dans le contexte 'UserContext' */}
-        </UserContext.Provider>
+            {/* </UserContext.Provider> */}
+        </div>
     );
 };
