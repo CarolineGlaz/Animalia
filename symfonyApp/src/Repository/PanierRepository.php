@@ -16,6 +16,21 @@ class PanierRepository extends ServiceEntityRepository
         parent::__construct($registry, Panier::class);
     }
 
+    /**
+     * @return Panier[]
+     */
+    public function findPanierWithProduits(int $idUtilisateur): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('App\Entity\Produits', 'prod', 'WITH', 'p.idProduit = prod.id')
+            ->addSelect('prod')
+            ->where('p.idUtilisateur = :idUtilisateur')
+            ->setParameter('idUtilisateur', $idUtilisateur)
+            ->getQuery();
+
+        return $qb->getArrayResult(); // Retourne les résultats sous forme de tableau associatif
+    }
+
     //    /**
     //     * @return Panier[] Returns an array of Panier objects
     //     */

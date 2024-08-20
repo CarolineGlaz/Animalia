@@ -1,26 +1,47 @@
-// import React, { useEffect, useState } from 'react'
-// import './Panier.css'
-// import { Axios } from 'axios'
+import React, { useEffect, useState } from 'react'
+import './Panier.css'
+import { Axios } from 'axios'
 
-// const Panier = () => {
-//   const [produit, setProduit] = useState(null)
-//   const [chargement, setChargement] = useState(true)
-//   const [erreur, setErreur] = useState(null)
+const exempleListProduit = [
+  { id: 4, nom: "Truc" },
+  { id: 3, nom: "Bidule" },
+  { id: 10, nom: "Chouette" }
+]
 
-//   useEffect(() =>{
-//     try {
-//       axios.get(``)
-//     } catch (error) {
-      
-//     }
-//   })
 
-//   return (
-//     <div>
-//       <h1>Panier</h1>
-//       <p>Votre panier est vide.</p>
-//     </div>
-//   )
-// }
 
-// export default Panier
+const Panier = () => {
+  const [produits, setProduits] = useState(exempleListProduit)
+  // const [chargement, setChargement] = useState(true)
+  // const [erreur, setErreur] = useState(null)
+
+  return (
+    <div>
+      <h1>Panier</h1>
+      {
+        produits ? <ListPanier produits={produits} />
+          : <p>Aucun produit dans le panier</p>
+      }
+
+    </div>
+  )
+}
+
+
+
+const ListPanier = (props) => {
+  return ( 
+    <div id="list-panier">
+      {
+        props.produits.map((produit) => (
+          <div key={produit.id}>
+            <p>{produit.nom}</p>
+          </div>
+        ))
+      }
+    </div>
+  )
+}
+
+
+export default Panier

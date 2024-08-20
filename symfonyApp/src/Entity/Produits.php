@@ -12,6 +12,7 @@ class Produits
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Panier::class)]
     public ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -20,7 +21,7 @@ class Produits
     #[ORM\Column(length: 255)]
     public ?string $description = null;
 
-    #[ORM\Column(type: "json")] // Utilisation du type JSON
+    #[ORM\Column(type: "json")]
     public array $categorie = [];
 
     #[ORM\Column]

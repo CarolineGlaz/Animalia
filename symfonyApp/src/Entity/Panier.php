@@ -1,6 +1,5 @@
 <?php
 
-// src/Entity/Panier.php
 namespace App\Entity;
 
 use App\Repository\PanierRepository;
@@ -11,48 +10,48 @@ class Panier
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     public ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    public ?string $idUtilisateurs = null;
+    #[ORM\Column]
+    public ?int $idUtilisateur = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    public ?string $idProduits = null;
+    #[ORM\Column]
+    public ?int $idProduit = null;
 
-    #[ORM\Column(type: 'integer')]
-    public int $quantite;
+    #[ORM\Column]
+    public ?int $quantite = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdUtilisateurs(): ?string
+    public function getIdUtilisateur(): ?int
     {
-        return $this->idUtilisateurs;
+        return $this->idUtilisateur;
     }
 
-    public function setIdUtilisateurs(string $idUtilisateurs): static
+    public function setIdUtilisateur(int $idUtilisateur): static
     {
-        $this->idUtilisateurs = $idUtilisateurs;
+        $this->idUtilisateur = $idUtilisateur;
 
         return $this;
     }
 
-    public function getIdProduits(): ?string
+    public function getIdProduit(): ?int
     {
-        return $this->idProduits;
+        return $this->idProduit;
     }
 
-    public function setIdProduits(string $idProduits): static
+    public function setIdProduit(int $idProduit): static
     {
-        $this->idProduits = $idProduits;
+        $this->idProduit = $idProduit;
 
         return $this;
     }
 
-    public function getQuantite(): int
+    public function getQuantite(): ?int
     {
         return $this->quantite;
     }
@@ -64,4 +63,3 @@ class Panier
         return $this;
     }
 }
-

@@ -9,6 +9,7 @@ import SignUp from './Components/Register/Register'
 import SessionComponent from './Components/SessionComponent'
 import { UserProvider } from './Components/UserContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Panier from './Components/Panier/Panier';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ListProduits />} />
           <Route path="/produit/:nom/:id" element={<ProduitPage />} />
+          <Route path="/panier" element={<Panier/>} />
         </Routes>
       </Router>
 

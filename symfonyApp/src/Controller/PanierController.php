@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Panier;
 use App\Entity\User;
 use App\Entity\Produits;
+use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/panier')]
 class PanierController extends AbstractController
 {
     private $entityManager;
@@ -21,19 +23,23 @@ class PanierController extends AbstractController
     }
 
 
-    #[Route('/ajouter/panier', name: 'app_panier')]
-    public function ajouterPanier(Request $request): JsonResponse
+    #[Route('/get', name: 'get_panier')]
+    public function getPanier(Request $request, PanierRepository $panierRepository): JsonResponse
     {
-      $panierRepository = $this->entityManager->getRepository(Produits::class);
-      $produits = $panierRepository->findAll();
+        $idUtilisateur = 1;
 
-      $idUtilisateurs = 1;
-      $idProduits = 4;
-      $quantite = 1;
+        $panierDetails = $panierRepository->findPanierWithProduits($idUtilisateur);
 
-      return new JsonResponse(['message' => "L'article a bien été ajouté au panier"], 200);
+        $jsonResult = [];
+        for ($i = 0; $i < count($panierDetails); $i += 2) {
+            $object = $panierDetails[$i];
+            $object['produit'] = $panierDetails[$i + 1];
+            $jsonResult[$i / 2] = $object;
+        }
+
+        return new JsonResponse($jsonResult, 200);
     }
-      
+
 
     //     $data = json_decode($request->getContent(), true);
     //     // $idUtilisateurs = $data['idUtilisateurs'];

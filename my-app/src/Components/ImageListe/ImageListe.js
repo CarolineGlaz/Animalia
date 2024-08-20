@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 
 
 function ImageListe({ id }) {
-  const [images, setImages] = useState([])
+  const [images, setImages] = useState(null)
   const [chargement, setChargement] = useState(true)
   const [erreur, setErreur] = useState(null)
   const [imagesData, setImagesData] = useState([])
@@ -31,7 +31,7 @@ function ImageListe({ id }) {
 
   return (
     <div>
-      {images.length > 0 ?
+      {images ?
         imagesData.map((imgData) => (
           <img key={`image${imgData.id}`} src={'data:image/jpeg;base64,' + images[imgData.id]} alt={imgData.nom} />
         ))
