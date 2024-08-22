@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use function PHPUnit\Framework\isNan;
+
 #[Route('/panier')]
 class PanierController extends AbstractController
 {
@@ -41,7 +43,7 @@ class PanierController extends AbstractController
     }
 
     #[Route('/modifier/{id}', name: 'modifier_panier', methods: ['PUT'])]
-    public function modifierPanier(int $id): JsonResponse
+    public function modifierPanier(int $id, Request $request): JsonResponse
     {
         $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
 
@@ -49,19 +51,40 @@ class PanierController extends AbstractController
             return new JsonResponse(['message' => 'Article non trouvé'], 404);
         }
 
-        $this->entityManager->remove($panierArticle);
+        $data = json_decode($request->getContent(), true);
+
+        $idUtilisateur = 1;
+
+        if (isNotCorrect($data['quantite']))
+            return new JsonResponse(['message' => 'erreur de lecture de la quantité'], 404);
+
+
+        if ($panierArticle->getIdUtilisateur() != $idUtilisateur) {
+            return new JsonResponse(['message' => "Droit d'acces refusé"], 404);
+        };
+
+        if ($data['quantite'] == 0) {
+            return $this->supprimerPanier($id);
+        }
+        $panierArticle->setQuantite($data['quantite']);
         $this->entityManager->flush();
 
-        return new JsonResponse(['status' => 'Article supprimé du panier'], 200);
+        return new JsonResponse(['status' => 'Article modifié avec succès'], 200);
     }
 
-    #[Route('supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
+    #[Route('/supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
     public function supprimerPanier(int $id): JsonResponse
     {
+        $idUtilisateur = 1;
+
         $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
 
         if (!$panierArticle) {
             return new JsonResponse(['message' => 'Article non trouvé'], 404);
+        }
+
+        if ($panierArticle->getIdUtilisateur() != $idUtilisateur) {
+            return new JsonResponse(['message' => "Droit d'accès refusé"], 403);
         }
 
         $this->entityManager->remove($panierArticle);
@@ -70,45 +93,58 @@ class PanierController extends AbstractController
         return new JsonResponse(['status' => 'Article supprimé du panier'], 200);
     }
 
+    #[Route('/ajouter/{id}', name: 'ajouter_panier', methods: ['POST'])]
+    public function ajouterPanier(int $id, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
 
-    //     $data = json_decode($request->getContent(), true);
-    //     // $idUtilisateurs = $data['idUtilisateurs'];
-    //     $idProduits = $data['idProduits'];
-    //     $quantite = $data['quantite'];
+        if (isNotCorrect($data['quantite'])) {
+            return new JsonResponse(['message' => 'Quantité non trouvé'], 404);
+        }
+        $quantite = $data['quantite'];
 
-    //     $utilisateur = $this->entityManager->getRepository(User::class)->find($idUtilisateurs);
-    //     $produit = $this->entityManager->getRepository(Produits::class)->find($idProduits);
 
-    //     // if (!$utilisateur || !$produit) {
-    //     //     return new JsonResponse(['status' => 'Utilisateur ou produit non trouvé'], 404);
-    //     // }
+        $idUtilisateur = 1;
 
-    //     // On regarde si l'article est déjà dans le panier
-    //     $panierArticle = $this->entityManager->getRepository(Panier::class)->findOneBy([
-    //         'idUtilisateurs' => $idUtilisateurs,
-    //         'idProduits' => $idProduits
-    //     ]);
+        $panierArticle = $this->entityManager->getRepository(Panier::class)->findOneBy([
+            'idProduit' => $id,
+            'idUtilisateur' => $idUtilisateur,
+        ]);
 
-    //     if ($panierArticle) {
-    //         // Si l'article est dedans :
-    //         $panierArticle->setQuantite($panierArticle->getQuantite() + $quantite);
-    //     } else {
-    //         // Sinon :
-    //         $panierArticle = new Panier();
-    //         $panierArticle->setIdUtilisateurs($idUtilisateurs);
-    //         $panierArticle->setIdProduits($idProduits);
-    //         $panierArticle->setQuantite($quantite);
-    //     }
+        if ($panierArticle) {
+            $panierArticle->setQuantite($panierArticle->getQuantite() + $quantite);
+        } else {
+            $produit = $this->entityManager->getRepository(Produits::class)->find($id);
+            if (!$produit) {
+                return new JsonResponse(['message' => "Produit non trouvé"], 404);
+            }
 
-    //     $this->entityManager->persist($panierArticle);
-    //     $this->entityManager->flush();
 
-    // #[Route('/api/panier', name: 'api_panier')]
-    // public function getCart(): JsonResponse
-    // {
-    //     $idUtilisateurs = 1;//$this->getUser();
-    //     $panierArticle = $this->entityManager->getRepository(Panier::class)->findBy(['idUtilisateurs' => $idUtilisateurs]);
+            $panierArticle = new Panier();
+            $panierArticle->setIdProduit($produit->getId());
+            $panierArticle->setQuantite($quantite);
+            $panierArticle->setIdUtilisateur($idUtilisateur);
 
-    //     return new JsonResponse($panierArticle);
-    // }
+            $this->entityManager->persist($panierArticle);
+        }
+
+        $this->entityManager->flush();
+
+        return new JsonResponse(['message' => "L'article à été ajouté au panier"], 200);
+    }
+}
+
+
+function isNotCorrect($value)
+{
+    if (!isset($value))
+        return true;
+
+    if (is_nan($value))
+        return true;
+
+    if ($value < 1)
+        return true;
+
+    return false;
 }

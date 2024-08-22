@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './Panier.css'
 import axios from 'axios'
+import Verify from '../../utils/Verify'
 
 const Panier = () => {
   const [panier, setPanier] = useState([])
+  const [needToLoad, setNeedToLoad] = useState(false)
 
   useEffect(() => {
+    setNeedToLoad(false)
     axios.get(`https://127.0.0.1:8000/panier/get`)
       .then((res => {
         let json = res.data
@@ -14,13 +17,13 @@ const Panier = () => {
       .catch((error) => {
         console.error(error);
       })
-  }, [])
+  }, [needToLoad])
 
   return (
     <div>
       <h1>Panier</h1>
       {
-        panier ? <ListPanier panier={panier} />
+        panier ? <ListPanier panier={panier} load={setNeedToLoad} />
           : <p>Aucun produit dans le panier</p>
       }
 
@@ -33,6 +36,7 @@ const Panier = () => {
 const ListPanier = (props) => {
   const [quantities, setQuantities] = useState({});
   const [total, setTotal] = useState(0);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     props.panier.forEach(element => {
@@ -52,10 +56,7 @@ const ListPanier = (props) => {
   }, [quantities, props.panier])
 
   const handleQuantityChange = (id, value) => {
-    let number = isNaN(value) ?
-      value.replace(/\D/g, '')
-      : value
-    number = number < 0 ? '0' : number
+    const number = Verify.convertToPositiveNumber(value);
 
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -63,6 +64,39 @@ const ListPanier = (props) => {
     }));
   };
 
+
+  const putElement = (id) => {
+    if (!id || !quantities[id])
+      return;
+
+    axios.put(`https://127.0.0.1:8000/panier/modifier/${id}`, {
+      quantite: quantities[id],
+    })
+      .then(response => {
+        console.log('Réponse du serveur:', response.data);
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+      })
+      .finally(
+        props.load(true)
+      )
+
+  }
+
+  const deleteElement = (id) => {
+    axios.delete(`https://127.0.0.1:8000/panier/supprimer/${id}`)
+      .then(response => {
+        console.log('Réponse du serveur:', response.data);
+
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+      })
+      .finally(
+        props.load(true)
+      )
+  }
 
   return (
     <div id="list-panier">
@@ -78,8 +112,8 @@ const ListPanier = (props) => {
               value={quantities[element.id] || ''}
               onChange={(event) => handleQuantityChange(element.id, event.target.value)}
             />
-            <button onClick={() => putElement()}>Mettre à jour</button>
-            <button onClick={() => deleteElement()}>Supprimer</button>
+            <button onClick={() => putElement(element.id)}>Mettre à jour</button>
+            <button onClick={() => deleteElement(element.id)}>Supprimer</button>
           </div>
         ))
       }
@@ -87,12 +121,5 @@ const ListPanier = (props) => {
     </div>
   );
 }
-
-const putElement = () => {
-}
-
-const deleteElement = () => {
-}
-
 
 export default Panier

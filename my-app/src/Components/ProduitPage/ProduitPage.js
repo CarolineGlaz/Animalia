@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from "axios"
 import ImageListe from '../ImageListe/ImageListe';
+import AddButtonPanier from '../AddButtonPanier/AddButtonPanier';
 
 const ProduitPage = () => {
   const { nom, id } = useParams();
   const [produit, setProduit] = useState(null);
   const [erreur, setErreur] = useState(null)
-
 
   useEffect(() => {
     axios.get(`https://127.0.0.1:8000/produit/data/${id}`).then((res => {
@@ -35,7 +35,7 @@ const ProduitPage = () => {
 
       <p>{produit.descritpion}</p>
       <p>Prix : {produit.prix}€</p>
-
+      <AddButtonPanier id={produit.id} />
       <ImageListe id={id} />
     </div>
   );

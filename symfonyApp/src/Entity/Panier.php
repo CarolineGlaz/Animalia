@@ -14,7 +14,7 @@ class Panier
     public ?int $id = null;
 
     #[ORM\Column]
-    public ?int $idUtilisateur = null;
+    private ?int $idUtilisateur = null;
 
     #[ORM\Column]
     public ?int $idProduit = null;

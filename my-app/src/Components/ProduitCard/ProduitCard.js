@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
+import AddButtonPanier from "../AddButtonPanier/AddButtonPanier";
 
 const ProduitCard = (props) => {
   const produit = props.produit;
@@ -23,13 +24,14 @@ const ProduitCard = (props) => {
 
   if (!produit) return <div id="error-produit">Produit not found</div>
 
+
   return (
     <div id={`produit-${produit.id}`}>
       <label>{produit.nom}</label>
       <p>{maxDisplayDescription(produit.description)}</p>
       <img src={produit.img} alt={produit.nom} />
       <label>Prix : {produit.prix}€</label>
-      <button>Ajouter au Panier</button>
+      <AddButtonPanier id={produit.id} />
       <a href={`/produit/${formatStringForURL(produit.nom)}/${produit.id}`}>Acceder à la fiche du produit</a>
     </div>
   );
