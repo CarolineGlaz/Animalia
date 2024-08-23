@@ -7,7 +7,12 @@ const Index = () => {
   const [produits, setproduits] = useState([]);
 
   useEffect(() => {
-    axios.get('https://127.0.0.1:8000/')
+    axios.get('https://127.0.0.1:8000/', {
+      params: {
+        start: '0',
+        size: '12'
+      }
+    })
       .then(res => {
         let json = res.data
         setproduits(json.produits);

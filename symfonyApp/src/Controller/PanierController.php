@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Panier;
-use App\Entity\User;
 use App\Entity\Produits;
 use App\Repository\PanierRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Verify;
 
 use function PHPUnit\Framework\isNan;
 
@@ -55,7 +55,7 @@ class PanierController extends AbstractController
 
         $idUtilisateur = 1;
 
-        if (isNotCorrect($data['quantite']))
+        if (Verify::isPositiveNumber($data['quantite']))
             return new JsonResponse(['message' => 'erreur de lecture de la quantité'], 404);
 
 
@@ -66,7 +66,7 @@ class PanierController extends AbstractController
         if ($data['quantite'] == 0) {
             return $this->supprimerPanier($id);
         }
-        $panierArticle->setQuantite($data['quantite']);
+        $panierArticle->setQuantite((int) $data['quantite']);
         $this->entityManager->flush();
 
         return new JsonResponse(['status' => 'Article modifié avec succès'], 200);
@@ -98,11 +98,10 @@ class PanierController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if (isNotCorrect($data['quantite'])) {
+        if (!Verify::isPositiveNumber($data['quantite'])) {
             return new JsonResponse(['message' => 'Quantité non trouvé'], 404);
         }
-        $quantite = $data['quantite'];
-
+        $quantite = (int) $data['quantite'];
 
         $idUtilisateur = 1;
 
@@ -132,19 +131,4 @@ class PanierController extends AbstractController
 
         return new JsonResponse(['message' => "L'article à été ajouté au panier"], 200);
     }
-}
-
-
-function isNotCorrect($value)
-{
-    if (!isset($value))
-        return true;
-
-    if (is_nan($value))
-        return true;
-
-    if ($value < 1)
-        return true;
-
-    return false;
 }
