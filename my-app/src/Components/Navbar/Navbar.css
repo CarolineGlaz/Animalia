@@ -1,35 +1,74 @@
-*, ::before ::after{
-  Margin: 0;
-  Padding: 0;
-  Box-sizing: border-box;
+/* Styles pour la barre de navigation */
+.navbar {
+  background-color: var(--primary-100);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Karla", sans-serif;
 }
 
-.navbar {
-  background-color: red;
-  padding: 1.5rem;
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoNavbar {
+  
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-000);
+  text-decoration: none;
+  margin-right: 2rem;
 }
 
 .liensContainer {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  margin-left: auto;
 }
 
-.logoNavbar a {
+.liens {
+  margin-left: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--text-000);
   text-decoration: none;
-  font-weight: bold;
-  color: black;
-  font-size: 20px;
+  transition: color 0.3s ease;
 }
 
-.liens a {
-  text-decoration: none;
-  color: black;
-  transition: transform 0.3s ease-in-out;
-  margin-right: 2rem;
-  font-family: "Karla", sans-serif;
+/* .liens:hover {
+  color: #FFD700;
+} */
+
+.welcomeMessage {
+  color: var(--text-000);
+  font-size: 1.1rem;
+  list-style: none;
+  margin-left: 1.5rem;
 }
 
-.liens a:hover {
-  transform: scale(1.1);
+.loadingMessage {
+  font-size: 1.1rem;
+  list-style: none;
+  margin-left: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .logoContainer {
+      margin-bottom: 1rem;
+  }
+
+  .liensContainer {
+      margin-left: 0;
+      flex-direction: column;
+  }
+
+  .liens, .welcomeMessage, .loadingMessage {
+      margin-bottom: 1rem;
+  }
 }

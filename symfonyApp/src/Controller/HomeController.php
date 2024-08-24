@@ -34,7 +34,13 @@ class HomeController extends AbstractController
 
         $produitsRepository = $this->entityManager->getRepository(Produits::class);
         $produits = $produitsRepository->findAllWithPagination((int) $start, (int) $size);
-        $json = ['produits' => $produits,];
+
+        $count = $produitsRepository->countProducts();
+
+        $json = [
+            'produits' => $produits,
+            'countElement'=> $count,
+        ];
 
         $response = new JsonResponse($json);
         return $response;

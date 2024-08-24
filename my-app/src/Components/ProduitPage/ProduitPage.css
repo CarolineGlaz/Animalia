@@ -1,0 +1,105 @@
+/* Conteneur principal pour la page produit */
+.product-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Titre du produit */
+.product-title {
+  font-size: 2.2em;
+  color: #222;
+  margin-bottom: 20px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+/* Conteneur pour l'image et les informations du produit */
+.product-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+/* Image du produit */
+.product-img {
+  max-width: 400px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur des informations du produit */
+.product-info {
+  max-width: 600px;
+  text-align: left;
+}
+
+/* Nom du produit */
+.product-name {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Description du produit */
+.product-description {
+  font-size: 1.1em;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* Prix du produit */
+.product-price {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+/* Conteneur des actions du produit */
+.product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Style général des boutons */
+.product-actions .btn {
+  display: inline-block;
+  padding: 12px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-add-to-cart {
+  background-color: #007bff;
+}
+
+.btn-add-to-cart:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-view-images {
+  background-color: #17a2b8;
+}
+
+.btn-view-images:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+}

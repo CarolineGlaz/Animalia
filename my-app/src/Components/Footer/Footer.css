@@ -1,0 +1,67 @@
+/* Styles pour le footer */
+.contentFooter {
+  background: var(--primary-100);
+  color: var(--text-000);
+  /* Texte blanc pour un bon contraste */
+  padding: 2rem 0;
+  /* Espacement généreux en haut et en bas */
+  text-align: center;
+  /* Centrage du texte */
+  font-family: 'Arial', sans-serif;
+  /* Cohérence de la police avec le reste du site */
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.texte-footer {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-icon {
+  color: var(--text-000);
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: var(--primary-300);
+  transform: scale(1.2);
+}
+
+.footer-bottom {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.privacy-policy {
+  color: var(--text-000);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-top {
+    flex-direction: column;
+  }
+
+  .social-icons {
+    margin-top: 1rem;
+  }
+}

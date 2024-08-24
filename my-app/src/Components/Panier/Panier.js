@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './Panier.css'
 import axios from 'axios'
 import Verify from '../../utils/Verify'
+import Format from '../../utils/Format'
 
 const Panier = () => {
   const [panier, setPanier] = useState([])
@@ -21,12 +22,12 @@ const Panier = () => {
 
   return (
     <div>
-      <h1>Panier</h1>
+      <br />
       {
         panier ? <ListPanier panier={panier} load={setNeedToLoad} />
           : <p>Aucun produit dans le panier</p>
       }
-
+      <br />
     </div>
   )
 }
@@ -99,27 +100,33 @@ const ListPanier = (props) => {
   }
 
   return (
-    <div id="list-panier">
+    <div className="cart-container">
       {
         props.panier.map((element) => (
-          <div key={element.id}>
-            <img src={element.produit.img} alt={element.produit.nom} />
-            <p>{element.produit.nom}</p>
-            <p>{element.produit.prix}€</p>
+          <div key={element.id} className="cart-item">
+            <img className="cart-item-img" src={element.produit.img} alt={element.produit.nom} />
+            <div className="cart-item-details">
+              <a className="cart-item-name," href={`/produit/${Format.formatStringForURL((element.produit.nom))}/${element.produit.id}`}>{element.produit.nom}</a>
+              <p className="cart-item-price">{element.produit.prix}€</p>
+            </div>
             <input
+              className="cart-item-quantity"
               name="quantities"
               type="number"
               value={quantities[element.id] || ''}
               onChange={(event) => handleQuantityChange(element.id, event.target.value)}
             />
-            <button onClick={() => putElement(element.id)}>Mettre à jour</button>
-            <button onClick={() => deleteElement(element.id)}>Supprimer</button>
+            <div className="cart-item-buttons">
+              <button className="btn-update" onClick={() => putElement(element.id)}>Mettre à jour</button>
+              <button className="btn-delete" onClick={() => deleteElement(element.id)}>Supprimer</button>
+            </div>
           </div>
         ))
       }
-      <p id='prix-total'>Total : {total} €</p>
+      <p className="cart-total">Total : {total} €</p>
     </div>
   );
+  
 }
 
 export default Panier

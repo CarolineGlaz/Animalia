@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  Margin: 0;
+  Padding: 0;
+  Box-sizing: border-box;
+}
+
+:root {
+  --primary-100: #386641;
+  --primary-200: #6A994E;
+  --primary-300: #A7C957;
+  --accent-100: #da6163;
+  --accent-200: #d62729;
+  --text-000: #ffffff;
+  --text-100: #0E081A;
+  --text-100-alpha: #0E081A40;
+  --text-200: #1C1726;
+  --backg-100: #F2E8CF;
+  --backg-200: #F6F0E0;
+  --backg-300: #FEFCF8;
+}

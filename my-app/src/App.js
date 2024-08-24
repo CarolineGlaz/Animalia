@@ -10,18 +10,22 @@ import SessionComponent from './Components/SessionComponent'
 import { UserProvider } from './Components/UserContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Panier from './Components/Panier/Panier';
-
+import './App.css'
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Router>
-        <Routes>
-          <Route path="/" element={<ListProduits />} />
-          <Route path="/produit/:nom/:id" element={<ProduitPage />} />
-          <Route path="/panier" element={<Panier/>} />
-        </Routes>
+        <div className="page-content">
+          <Routes>
+            <Route path="/" element={<ListProduits />} />
+            <Route path="/produit/:nom/:id" element={<ProduitPage />} />
+            <Route path="/panier" element={<Panier />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+          </Routes>
+        </div>
       </Router>
 
       <Footer />

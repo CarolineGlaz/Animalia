@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from "axios"
 import ImageListe from '../ImageListe/ImageListe';
 import AddButtonPanier from '../AddButtonPanier/AddButtonPanier';
+import './ProduitPage.css'
 
 const ProduitPage = () => {
   const { nom, id } = useParams();
@@ -27,18 +28,24 @@ const ProduitPage = () => {
   if (!produit) return <p>Chargement du produit...</p>
 
   return (
-    <div>
-      <h1>Détails du produit</h1>
-      <p>Nom du produit : {produit.nom}</p>
-
-      <img src={produit.img} alt={produit.nom} />
-
-      <p>{produit.descritpion}</p>
-      <p>Prix : {produit.prix}€</p>
-      <AddButtonPanier id={produit.id} />
-      <ImageListe id={id} />
+    <div className="product-page">
+      <h1 className="product-title">Détails du produit</h1>
+      <div className="product-container">
+        <img className="product-img" src={produit.img} alt={produit.nom} />
+        <div className="product-info">
+          <p className="product-name">{produit.nom}</p>
+          <p className="product-description">{produit.description}</p>
+          <p className="product-price">Prix : {produit.prix}€</p>
+          <div className="product-actions">
+            <ImageListe id={id} className="btn-view-images" />
+            <AddButtonPanier id={produit.id} className="btn-add-to-cart" />
+          </div>
+        </div>
+      </div>
     </div>
   );
+
+
 };
 
 export default ProduitPage;

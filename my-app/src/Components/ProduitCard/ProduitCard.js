@@ -1,5 +1,7 @@
 import React from "react"
 import AddButtonPanier from "../AddButtonPanier/AddButtonPanier";
+import './ProduitCard.css'
+import Format from "../../utils/Format";
 
 const ProduitCard = (props) => {
   const produit = props.produit;
@@ -13,28 +15,23 @@ const ProduitCard = (props) => {
     }
   }
 
-  const formatStringForURL = (str) => {
-    let formattedStr = str.toLowerCase();
-    formattedStr = formattedStr.replace(/\s+/g, '-');
-    formattedStr = formattedStr.replace(/[^a-z0-9-_]/g, '');
-    formattedStr = formattedStr.replace(/-{2,}/g, '-');
-
-    return formattedStr;
-  }
-
   if (!produit) return <div id="error-produit">Produit not found</div>
 
 
   return (
-    <div id={`produit-${produit.id}`}>
-      <label>{produit.nom}</label>
-      <p>{maxDisplayDescription(produit.description)}</p>
-      <img src={produit.img} alt={produit.nom} />
-      <label>Prix : {produit.prix}€</label>
+    <div className="produit-card" id={`produit-${produit.id}`}>
+      <div className="image-card">
+        <img className="produit-image" src={produit.img} alt={produit.nom} />
+      </div>
+      <label className="produit-nom">{produit.nom}</label>
+      <p className="produit-description">{maxDisplayDescription(produit.description)}</p>
+      <label className="produit-prix">Prix : {produit.prix}€</label>
       <AddButtonPanier id={produit.id} />
-      <a href={`/produit/${formatStringForURL(produit.nom)}/${produit.id}`}>Acceder à la fiche du produit</a>
+      <a className="produit-lien" href={`/produit/${Format.formatStringForURL((produit.nom))}/${produit.id}`}>Accéder à la fiche du produit</a>
     </div>
-  );
+  )
+
+
 
 }
 

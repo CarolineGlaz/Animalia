@@ -1,0 +1,65 @@
+/* Ajoute ce CSS à un fichier style.css ou directement dans un styled component */
+
+.page-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 1rem;
+  font-family: "Karla", sans-serif;
+}
+
+.dot {
+  padding: 0px 7px;
+}
+
+.page-selector button {
+  background-color: var(--text-000);
+  border: none;
+  color: var(--text-200);
+  padding: 8px 16px;
+  margin: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.page-selector button:hover {
+  background-color: var(--primary-300);
+  color: white;
+  transform: scale(1.05);
+}
+
+.page-selector button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.page-selector label.current {
+  font-size: 14px;
+  margin: 0;
+  color: var(--text-000);
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.page-selector label.current {
+  background-color: var(--primary-200);
+}
+
+@media (max-width: 600px) {
+  .page-selector {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .page-selector button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .page-selector label {
+    font-size: 12px;
+  }
+}
