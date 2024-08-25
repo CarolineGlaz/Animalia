@@ -29,7 +29,6 @@ const ProduitPage = () => {
 
   return (
     <div className="product-page">
-      <h1 className="product-title">Détails du produit</h1>
       <div className="product-container">
         <img className="product-img" src={produit.img} alt={produit.nom} />
         <div className="product-info">

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import "./Register.css"
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>Enregistre</h1>
             {flashErrors.map((error, index) => (
                 <div key={index} className="alert alert-danger" role="alert">
@@ -83,9 +85,11 @@ const Register = () => {
                 <button type="submit" className="btn btn-primary">
                     Register
                 </button>
+                <Link to="/login" className="link">Tu as un compte ? - Connecte toi ici !</Link>
             </form>
         </div>
     );
+
 };
 
 export default Register;

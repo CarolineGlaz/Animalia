@@ -16,7 +16,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <a href="/privacy-policy" className="privacy-policy">Politique de confidentialité</a>
+        <a href="/politique-confidentialite" className="privacy-policy">Politique de confidentialité</a>
       </div>
     </footer>
   );
