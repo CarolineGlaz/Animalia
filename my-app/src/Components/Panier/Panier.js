@@ -10,7 +10,7 @@ const Panier = () => {
 
   useEffect(() => {
     setNeedToLoad(false)
-    axios.get(`https://127.0.0.1:8000/panier/get`)
+    axios.get(`${process.env.REACT_APP_API_URL}/panier/get`)
       .then((res => {
         let json = res.data
         setPanier(json)
@@ -70,7 +70,7 @@ const ListPanier = (props) => {
     if (!id || !quantities[id])
       return;
 
-    axios.put(`https://127.0.0.1:8000/panier/modifier/${id}`, {
+    axios.put(`${process.env.REACT_APP_API_URL}/panier/modifier/${id}`, {
       quantite: quantities[id],
     })
       .then(response => {
@@ -86,7 +86,7 @@ const ListPanier = (props) => {
   }
 
   const deleteElement = (id) => {
-    axios.delete(`https://127.0.0.1:8000/panier/supprimer/${id}`)
+    axios.delete(`${process.env.REACT_APP_API_URL}/panier/supprimer/${id}`)
       .then(response => {
         console.log('Réponse du serveur:', response.data);
 

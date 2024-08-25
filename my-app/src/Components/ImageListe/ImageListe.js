@@ -10,7 +10,7 @@ const ImageListe = ({ id }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    axios.get(`https://127.0.0.1:8000/produit/image/${id}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/produit/image/${id}`)
       .then(res => {
         let json = res.data;
         setImages(json.encodedImages);

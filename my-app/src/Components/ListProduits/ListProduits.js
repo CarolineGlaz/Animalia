@@ -8,11 +8,10 @@ const Index = () => {
   const [produits, setproduits] = useState([])
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
-
   const SIZE = 1
 
   useEffect(() => {
-    axios.get('https://127.0.0.1:8000/', {
+    axios.get(`${process.env.REACT_APP_API_URL}/`, {
       params: {
         start: (page - 1) * SIZE,
         size: SIZE

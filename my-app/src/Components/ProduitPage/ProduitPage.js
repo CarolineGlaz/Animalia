@@ -11,7 +11,7 @@ const ProduitPage = () => {
   const [erreur, setErreur] = useState(null)
 
   useEffect(() => {
-    axios.get(`https://127.0.0.1:8000/produit/data/${id}`).then((res => {
+    axios.get(`${process.env.REACT_APP_API_URL}/produit/data/${id}`).then((res => {
       let json = res.data
       setProduit(json.produit)
     })).catch((e) => {

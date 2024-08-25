@@ -9,7 +9,7 @@ const AddButtonPanier = (props) => {
 
   const ajouterElement = (id) => {
 
-    axios.post(`https://127.0.0.1:8000/panier/ajouter/${id}`, {
+    axios.post(`${process.env.REACT_APP_API_URL}/panier/ajouter/${id}`, {
       quantite: quantitie
     })
       .then(response => {
