@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-//import { UserContext } from '../UserContext';
 import './Navbar.css'
+import { SessionContext } from '../SessionContext';
 
 const Navbar = () => {
-    const user = null
+    const { session } = useContext(SessionContext);
 
     return (
         <nav className="navbar">
@@ -14,8 +14,8 @@ const Navbar = () => {
                 
                 
                 <a className='liens' href="/Panier"> 🛒 Panier</a>
-                {user ? (
-                    <a className='liens' href="/Compte">Mon compte</a>
+                { session.isLogged ? (
+                    <a className='liens' href="/Compte">Mon compte {session.id}</a>
                 ) : (
                     <a className='liens' href="/login">Se connecter</a>
                 )}

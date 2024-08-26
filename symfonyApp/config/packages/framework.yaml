@@ -4,10 +4,11 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session:
+        cookie_httponly: true
         enabled: true
+        cookie_secure: false
         handler_id: ~
-        cookie_secure: auto
-        cookie_samesite: lax
+        cookie_samesite: null
 
     #esi: true
     #fragments: true
