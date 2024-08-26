@@ -4,12 +4,12 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Produits;
 use Symfony\Component\HttpFoundation\Request;
 use Verify;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class HomeController extends AbstractController
 {
@@ -39,10 +39,11 @@ class HomeController extends AbstractController
 
         $json = [
             'produits' => $produits,
-            'countElement'=> $count,
+            'countElement' => $count,
         ];
 
         $response = new JsonResponse($json);
         return $response;
     }
+
 }

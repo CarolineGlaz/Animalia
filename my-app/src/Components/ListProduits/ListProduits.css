@@ -2,7 +2,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 86px;
-  /* Espace entre les éléments */
   padding: 16px;
-  /* Espace intérieur autour de la grille */
+  text-align: center;
+  
+  justify-content: center; /* Centre les éléments de la grille horizontalement */
+  align-content: center;   /* Centre la grille dans son conteneur */
 }

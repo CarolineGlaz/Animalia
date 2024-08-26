@@ -3,12 +3,13 @@ import axios from 'axios'
 import './ListProduits.css'
 import ProduitCard from "../ProduitCard/ProduitCard"
 import PageSelector from "../PageSelector/PageSelector"
+import Commentaire from "../Commentaire/Commentaire"
 
 const Index = () => {
   const [produits, setproduits] = useState([])
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
-  const SIZE = 1
+  const SIZE = 4
 
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`, {
@@ -37,6 +38,9 @@ const Index = () => {
         )}
       </div>
       <PageSelector max={maxPage} page={page} setPage={setPage} />
+      <br />
+      <Commentaire />
+      <div style={{ padding: 20 + 'px', }}></div>
     </div>
   )
 }
