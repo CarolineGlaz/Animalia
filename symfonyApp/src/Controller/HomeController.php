@@ -45,5 +45,4 @@ class HomeController extends AbstractController
         $response = new JsonResponse($json);
         return $response;
     }
-
 }

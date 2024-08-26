@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import './Commentaire.css';
 import axios from 'axios';
+import FormAvis from '../FormAvis/FormAvis';
 
 const Commentaire = () => {
   const [commentaire, setCommentaire] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
+    setLoading(false)
     axios.get(`${process.env.REACT_APP_API_URL}/avis`)
       .then((res) => {
         setCommentaire(res.data);
-        setLoading(false);
       })
       .catch((error) => {
         setError('Erreur lors de la récupération des données.');
-        setLoading(false);
         console.error('Erreur :', error);
       });
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return <div>Chargement...</div>;
@@ -42,17 +41,10 @@ const Commentaire = () => {
     );
   };
 
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
-
-  const envoieAvis = () =>{
-    
-  }
 
   return (
     <div className='content-commentaire'>
-      <h2>Vos commentaires comptent pour nous !</h2>
+      <h2 className='commentaire-up'>Vos commentaires comptent pour nous !</h2>
       <div className="comCarousel">
         <button className="comCarousel-button prev" onClick={handlePrevious}>
           &#10094;
@@ -80,23 +72,9 @@ const Commentaire = () => {
           &#10095;
         </button>
       </div>
-      <h2>Donnez votre avis !</h2>
-      <button className="boutton-avis" onClick={togglePopup}>Ajouter un avis</button>
+      <h2 className='commentaire-down'>Donnez votre avis !</h2>
 
-      {isPopupOpen && (
-        <div className="popup-overlay" onClick={togglePopup}>
-          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Ajouter un avis</h3>
-            <form>
-              <input type="text" placeholder="Nom" required />
-              <input type="text" placeholder="Prénom" required />
-              <textarea placeholder="Commentaire" required></textarea>
-              <button type="submit" onClickonClick={(e) => envoieAvis()}>Envoyer</button>
-            </form>
-            <button className="popup-close" onClick={togglePopup}>x</button>
-          </div>
-        </div>
-      )}
+      <FormAvis reload={setLoading} />
     </div>
   );
 }

@@ -4,3 +4,32 @@
   width: 100%;
   background-color: var(--backg-200);
 }
+
+
+.blur {
+  position: relative;
+  /* Nécessaire pour le positionnement des pseudo-éléments */
+  overflow: hidden;
+  /* Assure que le filtre ne dépasse pas les bords */
+}
+
+.blur::before {
+  content: '';
+  /* Nécessaire pour créer le pseudo-élément */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(128, 128, 128, 0.5);
+  /* Couleur grisâtre avec transparence */
+  z-index: 1;
+  /* Positionne le filtre au-dessus du contenu mais en dessous du texte */
+}
+
+.blur {
+  position: relative;
+  /* Assure que le contenu est au-dessus du filtre */
+  z-index: 2;
+  /* Positionne le contenu au-dessus du filtre */
+}

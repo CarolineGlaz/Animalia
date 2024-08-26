@@ -8,7 +8,7 @@ const AddButtonPanier = (props) => {
   const [quantitie, setQuantitie] = useState(1);
 
   const ajouterElement = (id) => {
-
+    props.setBlur(true)
     axios.post(`${process.env.REACT_APP_API_URL}/panier/ajouter/${id}`, {
       quantite: quantitie
     })
@@ -19,6 +19,7 @@ const AddButtonPanier = (props) => {
       .catch(error => {
         console.error('Erreur:', error);
       })
+      .finally(() => props.setBlur(false))
   }
 
   const setAndVerifyQuantitie = (value) => {
@@ -26,7 +27,7 @@ const AddButtonPanier = (props) => {
     setQuantitie(number);
   }
 
-  return(
+  return (
     <div>
       {ajouter ?
         <div>

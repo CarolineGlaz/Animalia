@@ -9,9 +9,12 @@ const Index = () => {
   const [produits, setproduits] = useState([])
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
+  const [blur, setBlur] = useState(false)
+
   const SIZE = 4
 
   useEffect(() => {
+    setBlur(true)
     axios.get(`${process.env.REACT_APP_API_URL}/`, {
       params: {
         start: (page - 1) * SIZE,
@@ -24,10 +27,13 @@ const Index = () => {
         const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
         setMaxPage(parseInt(maxPageNumber))
       })
+      .finally(() => {
+        setBlur(false)
+      })
   }, [page])
 
   return (
-    <div>
+    <div className={`${blur && 'blur'}`}>
       <div className="produit-grid">
         {produits.length > 0 ? (
           produits.map(produit => (

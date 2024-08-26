@@ -55,7 +55,7 @@ class PanierController extends AbstractController
 
         $idUtilisateur = 1;
 
-        if (Verify::isPositiveNumber($data['quantite']))
+        if (!Verify::isPositiveNumber($data['quantite']))
             return new JsonResponse(['message' => 'erreur de lecture de la quantité'], 404);
 
 

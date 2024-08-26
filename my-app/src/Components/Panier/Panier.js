@@ -24,7 +24,7 @@ const Panier = () => {
     <div>
       <br />
       {
-        panier ? <ListPanier panier={panier} load={setNeedToLoad} />
+        panier ? <ListPanier panier={panier} load={setNeedToLoad} setPanier={setPanier} />
           : <p>Aucun produit dans le panier</p>
       }
       <br />
@@ -37,7 +37,6 @@ const Panier = () => {
 const ListPanier = (props) => {
   const [quantities, setQuantities] = useState({});
   const [total, setTotal] = useState(0);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     props.panier.forEach(element => {
@@ -66,67 +65,85 @@ const ListPanier = (props) => {
   };
 
 
-  const putElement = (id) => {
+  const putElement = (id, blur) => {
     if (!id || !quantities[id])
       return;
-
+    blur(true)
     axios.put(`${process.env.REACT_APP_API_URL}/panier/modifier/${id}`, {
       quantite: quantities[id],
     })
       .then(response => {
+        console.log(quantities[id])
+        if (quantities[id] === '0') {
+          props.setPanier(props.panier.filter(element => element.id !== id))
+        }
+
         console.log('Réponse du serveur:', response.data);
       })
       .catch(error => {
         console.error('Erreur:', error);
       })
-      .finally(
+      .finally(() => {
+        blur(false)
         props.load(true)
-      )
-
+      })
   }
 
-  const deleteElement = (id) => {
+
+  const deleteElement = (id, blur) => {
+    blur(true)
     axios.delete(`${process.env.REACT_APP_API_URL}/panier/supprimer/${id}`)
       .then(response => {
         console.log('Réponse du serveur:', response.data);
-
+        props.setPanier(props.panier.filter(element => element.id !== id))
       })
       .catch(error => {
         console.error('Erreur:', error);
       })
-      .finally(
+      .finally(() => {
         props.load(true)
-      )
+        blur(false)
+      })
   }
 
   return (
     <div className="cart-container">
       {
         props.panier.map((element) => (
-          <div key={element.id} className="cart-item">
-            <img className="cart-item-img" src={element.produit.img} alt={element.produit.nom} />
-            <div className="cart-item-details">
-              <a className="cart-item-name," href={`/produit/${Format.formatStringForURL((element.produit.nom))}/${element.produit.id}`}>{element.produit.nom}</a>
-              <p className="cart-item-price">{element.produit.prix}€</p>
-            </div>
-            <input
-              className="cart-item-quantity"
-              name="quantities"
-              type="number"
-              value={quantities[element.id] || ''}
-              onChange={(event) => handleQuantityChange(element.id, event.target.value)}
-            />
-            <div className="cart-item-buttons">
-              <button className="btn-update" onClick={() => putElement(element.id)}>Mettre à jour</button>
-              <button className="btn-delete" onClick={() => deleteElement(element.id)}>Supprimer</button>
-            </div>
-          </div>
+          <PanierItem key={element.id} element={element} delete={deleteElement} put={putElement} quantities={quantities} hanglechange={handleQuantityChange} />
         ))
       }
       <p className="cart-total">Total : {total} €</p>
     </div>
   );
-  
+}
+
+
+const PanierItem = (props) => {
+  const [blur, setBlur] = useState(false)
+
+  return (
+    <div key={props.element.id} className={`cart-item ${blur && 'blur'}`}>
+      <img className="cart-item-img" src={props.element.produit.img} alt={props.element.produit.nom} />
+      <div className="cart-item-details">
+        <a className="cart-item-name," href={`/produit/${Format.formatStringForURL((props.element.produit.nom))}/${props.element.produit.id}`}>{props.element.produit.nom}</a>
+        <p className="cart-item-price">{props.element.produit.prix}€</p>
+      </div>
+      <input
+        className="cart-item-quantity"
+        name="quantities"
+        type="number"
+        value={props.quantities[props.element.id] || ''}
+        onChange={(event) => props.hanglechange(props.element.id, event.target.value)}
+      />
+      <div className="cart-item-buttons">
+        <button className="btn-update" onClick={() => props.put(props.element.id, setBlur)}>Mettre à jour</button>
+        <button className="btn-delete" onClick={() => props.delete(props.element.id, setBlur)}>Supprimer</button>
+      </div>
+    </div>
+  )
+
+
 }
 
 export default Panier

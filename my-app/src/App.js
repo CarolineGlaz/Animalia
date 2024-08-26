@@ -6,13 +6,13 @@ import ProduitPage from './Components/ProduitPage/ProduitPage'
 import Footer from './Components/Footer/Footer'
 import Login from './Components/Login/Login'
 import SignUp from './Components/Register/Register'
-import SessionComponent from './Components/SessionComponent'
-import { UserProvider } from './Components/UserContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Panier from './Components/Panier/Panier';
 import './App.css'
 
 function App() {
+
+  
   return (
     <div className="App">
       <Navbar />

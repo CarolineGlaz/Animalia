@@ -14,10 +14,13 @@
 
 .content-commentaire h2 {
   text-align: center;
-  padding: 2rem 1rem 0rem;
   font-family: "Work Sans", sans-serif;
   color: #fff;
   font-weight: 550;
+}
+
+.content-commentaire .commentaire-up {
+  padding: 2.5rem 1rem 0rem;
 }
 
 .comCarousel-content {
@@ -26,7 +29,7 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  margin: 3rem;
+  margin: 2.5rem 3rem 2rem 3rem;
 }
 
 .first-item {
@@ -44,15 +47,15 @@
 
 .comCarousel-button {
   background: rgba(0, 0, 0, 0.0);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: xx-large;
-    z-index: 10;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: xx-large;
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .comCarousel-button.prev {
@@ -80,15 +83,15 @@
   justify-content: space-between;
 }
 
-.test h3{
+.test h3 {
   font-family: "Noto Sans", sans-serif;
 }
 
-.test h4{
+.test h4 {
   font-family: "Noto Sans", sans-serif;
 }
 
-.test p{
+.test p {
   font-family: "Karla", sans-serif;
 }
 
@@ -103,12 +106,19 @@
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: block; /* Assure que le bouton occupe toute la largeur disponible */
-  margin: 2rem auto; /* Centre le bouton horizontalement */
-  text-align: center; /* Centre le texte à l'intérieur du bouton */
+  display: block;
+  /* Assure que le bouton occupe toute la largeur disponible */
+  margin: 1rem auto;
+  /* Centre le bouton horizontalement */
+  text-align: center;
+  /* Centre le texte à l'intérieur du bouton */
 }
 
-.boutton-avis:hover{
+.button-avis-div {
+  padding-bottom: 5px;
+}
+
+.boutton-avis:hover {
   background-color: var(--primary-300);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-3px);
@@ -120,11 +130,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
+  background: rgba(0, 0, 0, 0.5);
+  /* Couleur de fond semi-transparente */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* S'assurer que le pop-up est au-dessus de tout */
+  z-index: 1000;
+  /* S'assurer que le pop-up est au-dessus de tout */
 }
 
 .popup-content {
@@ -189,10 +201,9 @@
   cursor: pointer;
 }
 
-.popup-content h3{
+.popup-content h3 {
   font-family: "Noto Sans", sans-serif;
 }
-
 
 @media (max-width: 800px) {
   .comCarousel-item {

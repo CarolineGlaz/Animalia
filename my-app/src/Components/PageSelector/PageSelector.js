@@ -18,7 +18,7 @@ const PageSelector = (props) => {
     return <p>Erreur du passage des props</p>
 
   return (
-    <div  className="page-selector">
+    <div className="page-selector">
       {
         page !== 1 ?
           <button onClick={() => handlePageSwitch(1)}>1</button>
