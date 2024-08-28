@@ -10,6 +10,9 @@ const ProduitPage = () => {
   const [produit, setProduit] = useState(null);
   const [erreur, setErreur] = useState(null)
 
+  const [blur, setBlur] = useState(false)
+
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/produit/data/${id}`).then((res => {
       let json = res.data
@@ -28,7 +31,7 @@ const ProduitPage = () => {
   if (!produit) return <p>Chargement du produit...</p>
 
   return (
-    <div className="product-page">
+    <div className={`product-page ${blur && 'blur'}`}>
       <div className="product-container">
         <img className="product-img" src={produit.img} alt={produit.nom} />
         <div className="product-info">
@@ -37,7 +40,7 @@ const ProduitPage = () => {
           <p className="product-price">Prix : {produit.prix}€</p>
           <div className="product-actions">
             <ImageListe id={id} className="btn-view-images" />
-            <AddButtonPanier id={produit.id} className="btn-add-to-cart" />
+            <AddButtonPanier id={produit.id} className="btn-add-to-cart" setBlur={setBlur}/>
           </div>
         </div>
       </div>

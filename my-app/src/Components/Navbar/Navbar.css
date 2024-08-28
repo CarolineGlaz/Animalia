@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   font-family: "Karla", sans-serif;
+  position: relative;
 }
 
 .logoContainer {
@@ -14,7 +15,6 @@
 }
 
 .logoNavbar {
-  
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--text-000);
@@ -22,10 +22,36 @@
   margin-right: 2rem;
 }
 
+.menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  z-index: 10; /* Assure que le bouton est au-dessus des autres éléments */
+}
+
+.menuToggle .bar {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--text-000);
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
 .liensContainer {
   display: flex;
   align-items: center;
   margin-left: auto;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .liens {
@@ -36,39 +62,61 @@
   transition: color 0.3s ease;
 }
 
-/* .liens:hover {
-  color: #FFD700;
-} */
-
-.welcomeMessage {
-  color: var(--text-000);
-  font-size: 1.1rem;
-  list-style: none;
-  margin-left: 1.5rem;
-}
-
-.loadingMessage {
-  font-size: 1.1rem;
-  list-style: none;
-  margin-left: 1.5rem;
+/* Styles pour le menu burger */
+.menu.open .liensContainer {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
   .navbar {
-      flex-direction: column;
-      text-align: center;
+    padding: 1rem 1rem 0 1rem;
+
+    flex-direction: column;
+    text-align: center;
   }
 
   .logoContainer {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .menu {
+    width: 100%;
+    position: relative;
+  }
+
+  .menuToggle {
+    display: block;
   }
 
   .liensContainer {
-      margin-left: 0;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .menu.open .liensContainer {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .liens, .welcomeMessage, .loadingMessage {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .menu.close > .liensContainer > a {
+    font-size: 0;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .logoNavbar{
+    margin-left: 1rem;
   }
 }
+

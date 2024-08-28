@@ -10,6 +10,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Panier from './Components/Panier/Panier';
 import './App.css'
 
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+
 function App() {
 
   
