@@ -6,6 +6,7 @@ import ProduitPage from './Components/ProduitPage/ProduitPage'
 import Footer from './Components/Footer/Footer'
 import Login from './Components/Login/Login'
 import SignUp from './Components/Register/Register'
+import { SessionContext, SessionProvider } from './Components/SessionContext';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Panier from './Components/Panier/Panier';
 import './App.css'
@@ -19,6 +20,7 @@ function App() {
   
   return (
     <div className="App">
+      <SessionProvider>
       <Navbar />
       <Router>
         <div className="page-content">
@@ -31,8 +33,8 @@ function App() {
           </Routes>
         </div>
       </Router>
-
       <Footer />
+      </SessionProvider>
     </div>
   );
 }

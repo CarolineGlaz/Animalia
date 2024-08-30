@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Navbar.css';
+import { SessionContext } from '../SessionContext';
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const user = null;
+    const { session } = useContext(SessionContext);
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -22,8 +25,8 @@ const Navbar = () => {
             <div className={`menu ${isMenuOpen ? 'open' : 'close'}`}>
                 <div className="liensContainer">
                     <a className="liens" href="/Panier"> 🛒 Panier</a>
-                    {user ? (
-                        <a className="liens" href="/Compte">Mon compte</a>
+                    {session.isLogged ? (
+                        <a className="liens" href="/Compte">Mon compte {session.id}</a>
                     ) : (
                         <a className="liens" href="/login">Se connecter</a>
                     )}

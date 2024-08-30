@@ -19,7 +19,7 @@ class SessionController extends AbstractController
             $session->start();
         }
 
-        $session->set('user_id', 123);
+        $session->set('user_id', time());
         $response = new JsonResponse(['status' => 'Session started'], 200);
         return $response;
     }
@@ -31,7 +31,11 @@ class SessionController extends AbstractController
 
         if ($session->has('user_id')) {
             $userId = $session->get('user_id');
-            $response = new Response('User ID: ' . $userId, 200);
+            $sessionData = [
+                'isLogged'=> true,
+                'id' => $session->get('user_id'),
+            ];
+            $response = new JsonResponse(['sessionData' => $sessionData], 200);
             return $response;
         } else {
             $response = new Response('No session found', 404);
