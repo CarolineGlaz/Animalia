@@ -4,12 +4,15 @@ import './ListProduits.css'
 import ProduitCard from "../ProduitCard/ProduitCard"
 import PageSelector from "../PageSelector/PageSelector"
 import Commentaire from "../Commentaire/Commentaire"
+import CardAnimals from '../CardAnimals/CardAnimals'
+
 
 const Index = () => {
   const [produits, setproduits] = useState([])
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
   const [blur, setBlur] = useState(false)
+  const [categorie, setCategorie] = useState("")
 
   const SIZE = 4
 
@@ -17,11 +20,13 @@ const Index = () => {
     setBlur(true)
     axios.get(`${process.env.REACT_APP_API_URL}/`, {
       params: {
-        start: (page - 1) * SIZE,
-        size: SIZE
+        start: page * SIZE - SIZE,
+        size: SIZE,
+        categorie: categorie,
       }
     })
       .then(res => {
+        console.log(res.data)
         let json = res.data
         setproduits(json.produits)
         const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
@@ -30,10 +35,32 @@ const Index = () => {
       .finally(() => {
         setBlur(false)
       })
-  }, [page])
+  }, [page, categorie])
+
+  const handleCategorieChange = (event) => {
+    setCategorie(event.target.value)
+    setPage(1) // Réinitialiser la page lorsque la catégorie change
+  }
 
   return (
     <div className={`${blur && 'blur'}`}>
+      <div className="filter">
+        <button 
+          className={`filter-button ${categorie === '' ? 'active' : ''}`} 
+          onClick={() => handleCategorieChange({ target: { value: '' } })}>
+          Tous
+        </button>
+        <button 
+          className={`filter-button ${categorie === 'CHAT' ? 'active' : ''}`} 
+          onClick={() => handleCategorieChange({ target: { value: 'CHAT' } })}>
+          Chat
+        </button>
+        <button 
+          className={`filter-button ${categorie === 'RONGEUR' ? 'active' : ''}`} 
+          onClick={() => handleCategorieChange({ target: { value: 'RONGEUR' } })}>
+          Rongeur
+        </button>
+      </div>
       <div className="produit-grid">
         {produits.length > 0 ? (
           produits.map(produit => (
@@ -46,7 +73,7 @@ const Index = () => {
       <PageSelector max={maxPage} page={page} setPage={setPage} />
       <br />
       <Commentaire />
-      <div style={{ padding: 20 + 'px', }}></div>
+      <CardAnimals />
     </div>
   )
 }

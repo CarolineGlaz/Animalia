@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react"
-import Verify from "../../utils/Verify";
+import Verify from "../../utils/Verify"
 import "./AddButtonPanier.css"
 
 const AddButtonPanier = (props) => {
-  const [ajouter, setAjouter] = useState(false);
-  const [quantitie, setQuantitie] = useState(1);
+  const [ajouter, setAjouter] = useState(false)
+  const [quantitie, setQuantitie] = useState(1)
 
   const ajouterElement = (id) => {
     props.setBlur(true)
@@ -13,18 +13,18 @@ const AddButtonPanier = (props) => {
       quantite: quantitie
     })
       .then(response => {
-        console.log('Réponse du serveur:', response.data);
+        console.log('Réponse du serveur:', response.data)
         setAjouter(false)
       })
       .catch(error => {
-        console.error('Erreur:', error);
+        console.error('Erreur:', error)
       })
       .finally(() => props.setBlur(false))
   }
 
   const setAndVerifyQuantitie = (value) => {
-    const number = Verify.convertToPositiveNumber(value);
-    setQuantitie(number);
+    const number = Verify.convertToPositiveNumber(value)
+    setQuantitie(number)
   }
 
   return (

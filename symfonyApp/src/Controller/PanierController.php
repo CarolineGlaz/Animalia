@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Verify;
+use App\Utils\Verify;
 
 use function PHPUnit\Framework\isNan;
 
@@ -23,7 +23,6 @@ class PanierController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-
 
     #[Route('/get', name: 'get_panier', methods: ['GET'])]
     public function getPanier(Request $request, PanierRepository $panierRepository): JsonResponse
@@ -55,13 +54,13 @@ class PanierController extends AbstractController
 
         $idUtilisateur = 1;
 
-        if (!Verify::isPositiveNumber($data['quantite']))
-            return new JsonResponse(['message' => 'erreur de lecture de la quantité'], 404);
-
+        if (!Verify::isPositiveNumber($data['quantite'])) {
+            return new JsonResponse(['message' => 'Erreur de lecture de la quantité'], 404);
+        }
 
         if ($panierArticle->getIdUtilisateur() != $idUtilisateur) {
-            return new JsonResponse(['message' => "Droit d'acces refusé"], 404);
-        };
+            return new JsonResponse(['message' => "Droit d'accès refusé"], 403);
+        }
 
         if ($data['quantite'] == 0) {
             return $this->supprimerPanier($id);
@@ -99,10 +98,9 @@ class PanierController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (!Verify::isPositiveNumber($data['quantite'])) {
-            return new JsonResponse(['message' => 'Quantité non trouvé'], 404);
+            return new JsonResponse(['message' => 'Quantité non trouvée'], 404);
         }
         $quantite = (int) $data['quantite'];
-
         $idUtilisateur = 1;
 
         $panierArticle = $this->entityManager->getRepository(Panier::class)->findOneBy([
@@ -118,7 +116,6 @@ class PanierController extends AbstractController
                 return new JsonResponse(['message' => "Produit non trouvé"], 404);
             }
 
-
             $panierArticle = new Panier();
             $panierArticle->setIdProduit($produit->getId());
             $panierArticle->setQuantite($quantite);
@@ -129,6 +126,6 @@ class PanierController extends AbstractController
 
         $this->entityManager->flush();
 
-        return new JsonResponse(['message' => "L'article à été ajouté au panier"], 200);
+        return new JsonResponse(['message' => "L'article a été ajouté au panier"], 200);
     }
 }

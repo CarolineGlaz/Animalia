@@ -1,74 +1,62 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import "./Login.css"
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [user, setUser] = useState(null); // Replace with actual user fetching logic
-  const [csrfToken, setCsrfToken] = useState(''); // Replace with actual token fetching logic
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate(); // Hook de navigation
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  return (
-    <div className="body-container">
-      <form onSubmit={handleSubmit} className="form-container">
-        {error && (
-          <div className="alert-danger">
-            {error.message}
-          </div>
-        )}
-  
-        {user && (
-          <div className="login-message">
-            You are logged in as {user.userIdentifier}, <a href="/logout">Logout</a>
-          </div>
-        )}
-  
-        <h1 className="form-title">Connecte toi !</h1>
-  
-        <label htmlFor="inputEmail" className="form-label">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          name="email"
-          id="inputEmail"
-          className="form-input"
-          autoComplete="email"
-          required
-          autoFocus
-        />
-  
-        <label htmlFor="inputPassword" className="form-label">Mot de passe</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
-          id="inputPassword"
-          className="form-input"
-          autoComplete="current-password"
-          required
-        />
-  
-        <input
-          type="hidden"
-          name="_csrf_token"
-          value={csrfToken}
-        />
-  
-        <button className="form-button" type="submit">
-          Se connecter
-        </button>
-        <Link to="/signup">Pas de compte ? - Inscrit toi ici !</Link>
-      </form>
-    </div>
-  );
-  
+        try {
+            const response = await axios.post('https://127.0.0.1:8000/my-login', {
+                username: username,
+                password: password,
+            }, {
+                withCredentials: true
+            });
+
+            console.log(response);
+            console.log('Connexion avec succès');
+            navigate('/'); 
+        } catch (error) {
+            setErrorMessage("La connexion a échoué. Veuillez vérifier vos informations d'identification.");
+        }
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit} method="POST">
+                <div>
+                    <label>Username:</label>
+                    <input 
+                        type="text" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input 
+                        type="password" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <button type="submit">Login</button>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                <p>
+                    Vous n'avez pas de compte ? <a href="/register">Inscrivez-vous ici</a>
+                </p>
+            </form>
+        </div>
+    );
 };
 
 export default Login;

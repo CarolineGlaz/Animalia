@@ -9,38 +9,31 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    public ?int $id = null;
+    private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
-    public ?string $email = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private string $email;
 
-    /**
-     * @var list<string> The user roles
-     */
     #[ORM\Column]
-    public array $roles = [];
+    private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
-    public ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255)]
-    public ?string $nom = null;
+    private string $nom;
 
     #[ORM\Column(length: 255)]
-    public ?string $prenom = null;
+    private string $prenom;
 
     #[ORM\Column(length: 255)]
-    public ?string $adresse = null;
+    private string $adresse;
 
     public function getId(): ?int
     {
@@ -52,104 +45,86 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function getNom(): ?string
+    public function getNom(): string
     {
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getPrenom(): string
     {
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
 
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getAdresse(): string
     {
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
 
         return $this;
+    }
+
+    /**
+     * Cette méthode remplace getUsername() dans Symfony 5.3+
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Si tu stockes des données sensibles temporaires, efface-les ici
     }
 }

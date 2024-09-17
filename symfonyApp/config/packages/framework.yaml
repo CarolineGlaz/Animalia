@@ -4,12 +4,12 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session:
+        cookie_secure: true
         cookie_httponly: true
         enabled: true
-        cookie_secure: false
-        handler_id: ~
-        cookie_samesite: null
-
+        handler_id: null
+        cookie_samesite: 'none'  # 'Strict' ou 'None' sont également possibles
+        cookie_lifetime: 3600  # Durée de vie du cookie (en secondes)
     #esi: true
     #fragments: true
 

@@ -16,7 +16,7 @@ const Panier = () => {
         setPanier(json)
       }))
       .catch((error) => {
-        console.error(error);
+        console.error(error)
       })
   }, [needToLoad])
 
@@ -35,39 +35,39 @@ const Panier = () => {
 
 
 const ListPanier = (props) => {
-  const [quantities, setQuantities] = useState({});
-  const [total, setTotal] = useState(0);
+  const [quantities, setQuantities] = useState({})
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     props.panier.forEach(element => {
-      handleQuantityChange(element.id, element.quantite);
-    });
+      handleQuantityChange(element.id, element.quantite)
+    })
   }, [props.panier])
 
   useEffect(() => {
     setTotal(props.panier.map((element) => {
-      const quantity = quantities[element.id] || 0;
+      const quantity = quantities[element.id] || 0
       return quantity * element.produit.prix
     })
       .reduce((acc, value) => {
-        return acc + value;
+        return acc + value
       }, 0)
     )
   }, [quantities, props.panier])
 
   const handleQuantityChange = (id, value) => {
-    const number = Verify.convertToPositiveNumber(value);
+    const number = Verify.convertToPositiveNumber(value)
 
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [id]: number
-    }));
-  };
+    }))
+  }
 
 
   const putElement = (id, blur) => {
     if (!id || !quantities[id])
-      return;
+      return
     blur(true)
     axios.put(`${process.env.REACT_APP_API_URL}/panier/modifier/${id}`, {
       quantite: quantities[id],
@@ -78,10 +78,10 @@ const ListPanier = (props) => {
           props.setPanier(props.panier.filter(element => element.id !== id))
         }
 
-        console.log('Réponse du serveur:', response.data);
+        console.log('Réponse du serveur:', response.data)
       })
       .catch(error => {
-        console.error('Erreur:', error);
+        console.error('Erreur:', error)
       })
       .finally(() => {
         blur(false)
@@ -94,11 +94,11 @@ const ListPanier = (props) => {
     blur(true)
     axios.delete(`${process.env.REACT_APP_API_URL}/panier/supprimer/${id}`)
       .then(response => {
-        console.log('Réponse du serveur:', response.data);
+        console.log('Réponse du serveur:', response.data)
         props.setPanier(props.panier.filter(element => element.id !== id))
       })
       .catch(error => {
-        console.error('Erreur:', error);
+        console.error('Erreur:', error)
       })
       .finally(() => {
         props.load(true)
@@ -115,7 +115,7 @@ const ListPanier = (props) => {
       }
       <p className="cart-total">Total : {total} €</p>
     </div>
-  );
+  )
 }
 
 
@@ -126,7 +126,8 @@ const PanierItem = (props) => {
     <div key={props.element.id} className={`cart-item ${blur && 'blur'}`}>
       <img className="cart-item-img" src={props.element.produit.img} alt={props.element.produit.nom} />
       <div className="cart-item-details">
-        <a className="cart-item-name," href={`/produit/${Format.formatStringForURL((props.element.produit.nom))}/${props.element.produit.id}`}>{props.element.produit.nom}</a>
+        <a  className="cart-item-name," 
+            href={`/produit/${Format.formatStringForURL((props.element.produit.nom))}/${props.element.produit.id}`}>{props.element.produit.nom}</a>
         <p className="cart-item-price">{props.element.produit.prix}€</p>
       </div>
       <input

@@ -6,14 +6,6 @@ use App\Entity\Produits;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Voiture>
- *
- * @method Voiture|null find($id, $lockMode = null, $lockVersion = null)
- * @method Voiture|null findOneBy(array $criteria, array $orderBy = null)
- * @method Voiture[]    findAll()
- * @method Voiture[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ProduitsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,26 +13,53 @@ class ProduitsRepository extends ServiceEntityRepository
         parent::__construct($registry, Produits::class);
     }
 
-    public function findAllWithPagination(int $start, int $size): array
+    // Méthode pour obtenir les produits avec pagination et filtrage par catégorie
+    public function findAllWithPagination(int $start, int $size, ?string $categorie): array
     {
-        return $this->createQueryBuilder('p')
+        $qb = $this->createQueryBuilder('p')
             ->setFirstResult($start)
-            ->setMaxResults($size)
-            ->getQuery()
-            ->getResult();
+            ->setMaxResults($size);
+
+        if ($categorie) {
+            $qb->andWhere('JSON_CONTAINS(p.categorie, :categorie) = 1')
+               ->setParameter('categorie', json_encode($categorie));
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
-    public function countProducts(): int
+
+    // Méthode pour compter le nombre total de produits (avec ou sans catégorie)
+    public function countProducts(?string $categorie): int
     {
-        return (int) $this->createQueryBuilder('p')
-            ->select('COUNT(p.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        $qb = $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)');
+        
+        if ($categorie) {
+            $qb->andWhere('JSON_CONTAINS(p.categorie, :categorie) = 1')
+               ->setParameter('categorie', json_encode($categorie));
+        }
+    
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
-}
 
+    // Méthode pour trouver les produits par catégorie avec une requête SQL brute (si nécessaire)
+    public function findByCategory(string $categorie): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        
+        $sql = '
+            SELECT * FROM produits p
+            WHERE JSON_CONTAINS(p.categorie, :categorie, \'$\')
+        ';
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['categorie' => json_encode($categorie)]);
+        
+        return $stmt->fetchAll();
+    }
 
-    //    /**
+        //    /**
     //     * @return Produits[] Returns an array of Produits objects
     //     */
     //    public function findByExampleField($value): array
@@ -64,3 +83,4 @@ class ProduitsRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+}

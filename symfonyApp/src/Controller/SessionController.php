@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
 class SessionController extends AbstractController
 {
@@ -17,29 +18,38 @@ class SessionController extends AbstractController
 
         if (!$session->isStarted()) {
             $session->start();
+        } else {
+            $session->clear();
         }
 
+        $session->set('isLogged', false);
         $session->set('user_id', time());
-        $response = new JsonResponse(['status' => 'Session started'], 200);
-        return $response;
+        return new JsonResponse(['status' => 'Session started'], 200);
     }
 
     #[Route('/session/check', name: 'session_check')]
-    public function checkSession(Request $request): Response
+    public function checkSession(Request $request): JsonResponse
     {
         $session = $request->getSession();
 
-        if ($session->has('user_id')) {
-            $userId = $session->get('user_id');
-            $sessionData = [
-                'isLogged'=> true,
-                'id' => $session->get('user_id'),
-            ];
-            $response = new JsonResponse(['sessionData' => $sessionData], 200);
-            return $response;
-        } else {
-            $response = new Response('No session found', 404);
-            return $response;
+        if (!$session->has('user_id')) {
+            return new JsonResponse(['message' => 'No session found'], 404);
         }
+
+        $sessionData = [
+            'isLogged' => $session->get('isLogged'),
+            'id' => $session->get('user_id'),
+        ];
+        return new JsonResponse(['sessionData' => $sessionData], 200);            
+    }
+
+    #[Route('/session/logout', name: 'session_logout', methods: ['POST'])]
+    public function logout(Request $request): JsonResponse
+    {
+        $session = $request->getSession();
+        $session->invalidate();
+
+        return new JsonResponse(['message' => 'Logout successful'], 200);
     }
 }
+

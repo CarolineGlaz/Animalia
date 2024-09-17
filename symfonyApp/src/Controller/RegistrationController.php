@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\LofinFromAuthAuthenticator;
+use App\Security\SimpleAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -15,34 +15,29 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+
+    #[Route('/register', name: 'app_register', methods: ['POST'])]
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $data = json_decode($request->getContent(), true);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // do anything else you need here, like send an email
-
-            return $security->login($user, LofinFromAuthAuthenticator::class, 'main');
+        if (empty($data['email']) || empty($data['password']) || empty($data['nom']) || empty($data['prenom']) || empty($data['adresse'])) {
+            return $this->json(['message' => "Tous les champs sont requis"], 400);
         }
+    
+        $user = new User();
+        $user->setEmail($data['email']);
+        $user->setPassword($passwordHasher->hashPassword($user, $data['password']));
+        $user->setNom($data['nom']);
+        $user->setPrenom($data['prenom']);
+        $user->setAdresse($data['adresse']);
+        $user->setRoles(['ROLE_USER']);
+    
+        $entityManager->persist($user);
+        $entityManager->flush();
 
-        return $this->render('registration/register.html.json', [
-            'registrationForm' => $form,
-        ]);
+        return $this->json(['message' => 'Inscription réussie, veuillez vous connecter'], 201);
     }
-
+    
 
 }

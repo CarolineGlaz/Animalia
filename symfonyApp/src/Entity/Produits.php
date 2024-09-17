@@ -25,7 +25,7 @@ class Produits
     public array $categorie = [];
 
     #[ORM\Column]
-    public ?int $prix = null;
+    public ?float $prix = null;
 
     #[ORM\Column(length: 255)]
     public ?string $img = null;

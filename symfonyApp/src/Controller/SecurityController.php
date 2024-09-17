@@ -4,24 +4,29 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Security\SimpleAuthenticator;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    private $authenticatorManager;
+
+    public function __construct(SimpleAuthenticator $authenticatorManager)
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        $this->authenticatorManager = $authenticatorManager;
+    }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('security/login.html.json', ['last_username' => $lastUsername, 'error' => $error]);
+    #[Route('/my-login', name: 'app_login')]
+    public function login(Request $request): JsonResponse
+    {
+        try {
+            $user = $this->authenticatorManager->authenticate($request);
+            return new JsonResponse(['message' => 'Vous êtes connecté']);
+        } catch (AuthenticationException $e) {
+            return new JsonResponse(['error' => "erreur lors de l'authentification"], 401);
+        }
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
@@ -29,7 +34,4 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-
-    
-    
 }

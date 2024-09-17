@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from "axios"
-import ImageListe from '../ImageListe/ImageListe';
-import AddButtonPanier from '../AddButtonPanier/AddButtonPanier';
+import ImageListe from '../ImageListe/ImageListe'
+import AddButtonPanier from '../AddButtonPanier/AddButtonPanier'
 import './ProduitPage.css'
 
 const ProduitPage = () => {
-  const { nom, id } = useParams();
-  const [produit, setProduit] = useState(null);
+  const { nom, id } = useParams()
+  const [produit, setProduit] = useState(null)
   const [erreur, setErreur] = useState(null)
 
   const [blur, setBlur] = useState(false)
@@ -19,9 +19,9 @@ const ProduitPage = () => {
       setProduit(json.produit)
     })).catch((e) => {
       if (e.response && e.response.data && e.response.data.message) {
-        setErreur(e.response.data.message);
+        setErreur(e.response.data.message)
       } else {
-        setErreur("Erreur lors du chargement du produit.");
+        setErreur("Erreur lors du chargement du produit.")
       }
     })
 
@@ -45,9 +45,9 @@ const ProduitPage = () => {
         </div>
       </div>
     </div>
-  );
+  )
 
 
-};
+}
 
 export default ProduitPage;

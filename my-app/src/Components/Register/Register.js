@@ -1,95 +1,85 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import "./Register.css"
+import { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [agreeTerms, setAgreeTerms] = useState(false);
-    const [errors, setErrors] = useState([]);
-    const [flashErrors, setFlashErrors] = useState([]);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [nom, setNom] = useState('')
+  const [prenom, setPrenom] = useState('')
+  const [adresse, setAdresse] = useState('')
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Ici vous pouvez ajouter la logique pour gérer la soumission du formulaire
-        // Par exemple, en envoyant une requête HTTP à votre backend
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-        // Exemple de gestion des erreurs
-        const newErrors = [];
-        if (!email) {
-            newErrors.push('Email is required');
-        }
-        if (!password) {
-            newErrors.push('Password is required');
-        }
-        if (!agreeTerms) {
-            newErrors.push('You must agree to the terms');
-        }
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
+        email,
+        password,
+        nom,
+        prenom,
+        adresse,
+      }, {
+        withCredentials: true
+    })
+      
+      setMessage('Inscription réussie, vous allez être redirigé vers la page de connexion.')
 
-        if (newErrors.length > 0) {
-            setErrors(newErrors);
-        } else {
-            // Logic to submit the form data
-            console.log('Form submitted', { email, password, agreeTerms });
-        }
-    };
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
 
-    return (
-        <div className="container">
-            <h1>Enregistre</h1>
-            {flashErrors.map((error, index) => (
-                <div key={index} className="alert alert-danger" role="alert">
-                    {error}
-                </div>
-            ))}
-            {errors.length > 0 && (
-                <div className="alert alert-danger" role="alert">
-                    {errors.map((error, index) => (
-                        <div key={index}>{error}</div>
-                    ))}
-                </div>
-            )}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className="form-group form-check">
-                    <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="agreeTerms"
-                        checked={agreeTerms}
-                        onChange={(e) => setAgreeTerms(e.target.checked)}
-                    />
-                    <label className="form-check-label" htmlFor="agreeTerms">
-                        Agree to terms
-                    </label>
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Register
-                </button>
-                <Link to="/login" className="link">Tu as un compte ? - Connecte toi ici !</Link>
-            </form>
-        </div>
-    );
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.error(error.response.data.message)
+        setMessage(error.response.data.message)
+        console.error("Une erreur s'est produite")
+        setMessage("Une erreur s'est produite. Veuillez réessayer.")
+      }
+    }
+  }
 
-};
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={nom}
+        onChange={(e) => setNom(e.target.value)}
+        placeholder="Nom"
+      />
+      <input
+        type="text"
+        value={prenom}
+        onChange={(e) => setPrenom(e.target.value)}
+        placeholder="Prénom"
+      />
+      <input
+        type="text"
+        value={adresse}
+        onChange={(e) => setAdresse(e.target.value)}
+        placeholder="Adresse"
+      />
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Mot de passe"
+      />
+      <button type="submit">S'inscrire</button>
+      {message && <p>{message}</p>}
+    <p>
+        Vous avez déjà un compte ? <a href="/login">Connectez-vous ici</a>
+    </p>
+    </form>
+  )
+}
 
-export default Register;
+export default Register

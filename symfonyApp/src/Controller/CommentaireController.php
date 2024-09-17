@@ -38,8 +38,7 @@ class CommentaireController extends AbstractController
 
         return new JsonResponse($data);
     }
-
-    #[Route('/sendavis', name: 'app_post_avis')]
+    #[Route('/sendavis', name: 'app_post_avis', methods: ['POST'])]
     public function postAvis(Request $req, SessionInterface $session): JsonResponse
     {
 
