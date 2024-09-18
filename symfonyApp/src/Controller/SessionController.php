@@ -5,41 +5,47 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class SessionController extends AbstractController
 {
-    #[Route('/session/start', name: 'session_start')]
+    #[Route('/session/start', name: 'session_start', methods: ['POST'])]
     public function startSession(Request $request): JsonResponse
     {
         $session = $request->getSession();
 
         if (!$session->isStarted()) {
             $session->start();
-        } else {
-            $session->clear();
         }
 
+        // Réinitialise la session si elle existe déjà
         $session->set('isLogged', false);
         $session->set('user_id', time());
+
         return new JsonResponse(['status' => 'Session started'], 200);
     }
 
-    #[Route('/session/check', name: 'session_check')]
+    #[Route('/session/check', name: 'session_check', methods: ['GET'])]
     public function checkSession(Request $request): JsonResponse
     {
         $session = $request->getSession();
-
-        if (!$session->has('user_id')) {
+        $user = $this->getUser();
+    
+        if (!$session->has('user_id') || !$user) {
             return new JsonResponse(['message' => 'No session found'], 404);
         }
-
+    
         $sessionData = [
-            'isLogged' => $session->get('isLogged'),
+            'isLogged' => true,
             'id' => $session->get('user_id'),
+            'user' => [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'roles' => $user->getRoles(),
+            ],
         ];
+    
         return new JsonResponse(['sessionData' => $sessionData], 200);            
     }
 
@@ -52,4 +58,3 @@ class SessionController extends AbstractController
         return new JsonResponse(['message' => 'Logout successful'], 200);
     }
 }
-

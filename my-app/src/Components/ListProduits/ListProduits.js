@@ -26,7 +26,6 @@ const Index = () => {
       }
     })
       .then(res => {
-        console.log(res.data)
         let json = res.data
         setproduits(json.produits)
         const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
