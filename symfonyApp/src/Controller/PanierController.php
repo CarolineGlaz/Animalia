@@ -27,7 +27,12 @@ class PanierController extends AbstractController
     #[Route('/get', name: 'get_panier', methods: ['GET'])]
     public function getPanier(Request $request, PanierRepository $panierRepository): JsonResponse
     {
-        $idUtilisateur = 1;
+        $session = $request->getSession();
+
+        if(!$session->has('isLogged') || $session->get('isLogged') == false){
+            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 404);
+        }
+        $idUtilisateur = $session->get('user_id');
 
         $panierDetails = $panierRepository->findPanierWithProduits($idUtilisateur);
 
@@ -52,7 +57,12 @@ class PanierController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        $idUtilisateur = 1;
+        $session = $request->getSession();
+
+        if(!$session->has('isLogged') || $session->get('isLogged') == false){
+            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 404);
+        }
+        $idUtilisateur = $session->get('user_id');
 
         if (!Verify::isPositiveNumber($data['quantite'])) {
             return new JsonResponse(['message' => 'Erreur de lecture de la quantité'], 404);
@@ -74,7 +84,12 @@ class PanierController extends AbstractController
     #[Route('/supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
     public function supprimerPanier(int $id): JsonResponse
     {
-        $idUtilisateur = 1;
+        $session = $request->getSession();
+
+        if(!$session->has('isLogged') || $session->get('isLogged') == false){
+            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 404);
+        }
+        $idUtilisateur = $session->get('user_id');
 
         $panierArticle = $this->entityManager->getRepository(Panier::class)->find($id);
 
@@ -101,7 +116,13 @@ class PanierController extends AbstractController
             return new JsonResponse(['message' => 'Quantité non trouvée'], 404);
         }
         $quantite = (int) $data['quantite'];
-        $idUtilisateur = 1;
+
+        $session = $request->getSession();
+
+        if(!$session->has('isLogged') || $session->get('isLogged') == false){
+            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 404);
+        }
+        $idUtilisateur = $session->get('user_id');
 
         $panierArticle = $this->entityManager->getRepository(Panier::class)->findOneBy([
             'idProduit' => $id,

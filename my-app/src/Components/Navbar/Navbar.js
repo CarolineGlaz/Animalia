@@ -1,25 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { SessionContext } from '../SessionContext';
-import './Navbar.css';
-import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { SessionContext } from '../SessionContext'
+import './Navbar.css'
+import axios from 'axios'
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { session, setSession } = useContext(SessionContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const { session, logout } = useContext(SessionContext)
 
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+        setIsMenuOpen(!isMenuOpen)
+    }
 
-    const logout = () => {
-        axios.post(`${process.env.REACT_APP_API_URL}/session/logout`)
-            .then(() => {
-                setSession({ isLogged: false });
-            })
-            .catch(error => {
-                console.error('Erreur lors de la déconnexion:', error);
-            });
-    };
+    const handleLogout = () => {
+        logout()
+    }
 
     return (
         <nav className="navbar">
@@ -37,7 +31,10 @@ const Navbar = () => {
                     {session.isLogged ? (
                         <>
                             <a className="liens" href="/Compte">Mon compte {session.id}</a>
-                            <a onClick={logout} className="liens">Se déconnnecter</a>
+                            {session.role === 'ROLE_ADMIN' && (
+                                <a className="liens" href="/Admin">Pannel Admin</a>
+                            )}
+                            <a onClick={handleLogout} className="liens">Se déconnecter</a>
                         </>
                     ) : (
                         <a className="liens" href="/login">Se connecter</a>
@@ -45,7 +42,7 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
-    );
-};
+    )
+}
 
-export default Navbar;
+export default Navbar

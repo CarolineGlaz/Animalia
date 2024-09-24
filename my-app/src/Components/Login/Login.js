@@ -1,36 +1,20 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import axios from 'axios'
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './Login.css'
+import { SessionContext } from '../SessionContext'
 
 const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate(); // Hook de navigation
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const { session, logout, login } = useContext(SessionContext)
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await axios.post('https://127.0.0.1:8000/my-login', {
-                username: username,
-                password: password,
-            }, {
-                withCredentials: true
-            });
-
-            console.log(response);
-            console.log('Connexion avec succès');
-            navigate('/'); 
-        } catch (error) {
-            setErrorMessage("La connexion a échoué. Veuillez vérifier vos informations d'identification.");
-        }
-    };
+    const navigate = useNavigate()
+   
 
     return (
         <div>
-            <form onSubmit={handleSubmit} method="POST">
+            <form onSubmit={(e) => login(e, username, password).then(()=>navigate("/"))} method="POST">
                 <div>
                     <label>Username:</label>
                     <input 
@@ -50,13 +34,12 @@ const Login = () => {
                     />
                 </div>
                 <button type="submit">Login</button>
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <p>
                     Vous n'avez pas de compte ? <a href="/register">Inscrivez-vous ici</a>
                 </p>
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default Login;
+export default Login
