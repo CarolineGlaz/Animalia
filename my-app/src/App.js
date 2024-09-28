@@ -11,6 +11,7 @@ import SignUp from './Components/Register/Register'
 import Panier from './Components/Panier/Panier'
 import './App.css'
 import AdminPage from './Components/AdminPage/AdminPage'
+import PageAdmin from './Components/PageAdmin/PageAdmin'
 
 
 axios.defaults.withCredentials = true;
@@ -31,6 +32,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignUp />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/a" element={<PageAdmin />} />
           </Routes>
         </div>
       </Router>

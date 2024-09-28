@@ -38,7 +38,7 @@ const Index = () => {
 
   const handleCategorieChange = (event) => {
     setCategorie(event.target.value)
-    setPage(1) // Réinitialiser la page lorsque la catégorie change
+    setPage(1)
   }
 
   return (

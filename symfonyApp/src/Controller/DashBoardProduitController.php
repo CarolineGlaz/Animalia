@@ -23,7 +23,20 @@ class DashBoardProduitController extends AbstractController
     #[Route('/get', name: 'get_dashboard_produits', methods: ['GET'])]
     public function getProduit(ProduitsRepository $produitRepository): JsonResponse
     {
-        $produits = $produitRepository->findAll();
+
+        $start = $request->query->get('start', 0);
+        $size = $request->query->get('size', 10);
+    
+        if (!Verify::isPositiveNumber($start)) {
+            return new JsonResponse(['message' => "Erreur start"], 404);
+        }
+        if (!Verify::isPositiveNumber($size)) {
+            return new JsonResponse(['message' => "Erreur size"], 404);
+        }
+    
+        $produitsRepository = $this->entityManager->getRepository(Produits::class);
+        $produits = $produitsRepository->findAllWithPagination((int) $start, (int) $size, null);
+
         return $this->json($produits, 200);
     }
 

@@ -71,12 +71,12 @@ class Produits
         return $this;
     }
 
-    public function getPrix(): ?int
+    public function getPrix(): ?float
     {
         return $this->prix;
     }
 
-    public function setPrix(int $prix): static
+    public function setPrix(float $prix): static
     {
         $this->prix = $prix;
 
