@@ -10,22 +10,22 @@ use App\Repository\AvisRepository;
 class Avis
 {
   #[MongoDB\Id]
-  private ?string $id = null;
+  public ?string $id = null;
 
   #[MongoDB\Field(type: "string")]
-  private string $nom;
+  public string $nom;
 
   #[MongoDB\Field(type: "string")]
-  private string $prenom;
+  public string $prenom;
 
   #[MongoDB\Field(type: "date")]
-  private DateTime $date;
+  public DateTime $date;
 
   #[MongoDB\Field(type: "string")]
-  private string $contenu;
+  public string $contenu;
 
   #[MongoDB\Field(type: "bool")]
-  private bool $isOkay;
+  public bool $isOkay;
 
   public function getId(): ?string
   {

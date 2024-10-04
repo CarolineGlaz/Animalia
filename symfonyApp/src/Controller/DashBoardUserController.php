@@ -11,6 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Utils\Verify;
 
 #[Route('/dashboard/user')]
 class DashBoardUserController extends AbstractController
@@ -26,11 +27,31 @@ class DashBoardUserController extends AbstractController
 
     #[Route('/get', name: 'get_dashboard_users', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function getAllUsers(UserRepository $userRepository): JsonResponse
+    public function getAllUsers(UserRepository $userRepository, Request $request): JsonResponse
     {
-        $users = $userRepository->findAll();
-        return $this->json($users, 200);
+        $start = $request->query->get('start', 0);
+        $size = $request->query->get('size', 10);
+    
+        if (!Verify::isPositiveNumber($start)) {
+            return new JsonResponse(['message' => "Erreur start"], 404);
+        }
+        if (!Verify::isPositiveNumber($size)) {
+            return new JsonResponse(['message' => "Erreur size"], 404);
+        }
+    
+        $users = $userRepository->findAllWithPagination((int) $start, (int) $size);
+
+        $totalUsers = $userRepository->count([]);
+    
+        $json = [
+            'users' => $users,
+            'countElement' => $totalUsers,
+        ];
+    
+        return new JsonResponse($json);
     }
+
+
 
 
     #[Route('/ajouter', name: 'ajouter_user', methods: ['POST'])]

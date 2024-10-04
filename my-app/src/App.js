@@ -10,8 +10,8 @@ import Login from './Components/Login/Login'
 import SignUp from './Components/Register/Register'
 import Panier from './Components/Panier/Panier'
 import './App.css'
-import AdminPage from './Components/AdminPage/AdminPage'
 import PageAdmin from './Components/PageAdmin/PageAdmin'
+import EmployePage from './Components/EmployePage/EmployePage'
 
 
 axios.defaults.withCredentials = true;
@@ -31,8 +31,8 @@ function App() {
             <Route path="/panier" element={<Panier />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignUp />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/a" element={<PageAdmin />} />
+            <Route path="/admin" element={<PageAdmin />} />
+            <Route path="/employe" element={<EmployePage/>} />
           </Routes>
         </div>
       </Router>

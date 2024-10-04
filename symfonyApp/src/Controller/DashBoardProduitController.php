@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Utils\Verify;
 
 #[Route('/dashboard')]
 class DashBoardProduitController extends AbstractController
@@ -21,7 +22,7 @@ class DashBoardProduitController extends AbstractController
     }
 
     #[Route('/get', name: 'get_dashboard_produits', methods: ['GET'])]
-    public function getProduit(ProduitsRepository $produitRepository): JsonResponse
+    public function getProduit(ProduitsRepository $produitRepository, Request $request): JsonResponse
     {
 
         $start = $request->query->get('start', 0);
@@ -48,7 +49,7 @@ class DashBoardProduitController extends AbstractController
         $produit = new Produits();
         $produit->setNom($data['nom']);
         $produit->setDescription($data['description']);
-        $produit->setCategorie($data['categorie']);
+        $produit->setCategorie(explode(',', $data['categorie']));
         $produit->setPrix($data['prix']);
         $produit->setImg($data['img']);
     

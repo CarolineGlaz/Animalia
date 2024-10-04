@@ -82,7 +82,7 @@ class PanierController extends AbstractController
     }
 
     #[Route('/supprimer/{id}', name: 'supprimer_panier', methods: ['DELETE'])]
-    public function supprimerPanier(int $id): JsonResponse
+    public function supprimerPanier(int $id, Request $request): JsonResponse
     {
         $session = $request->getSession();
 

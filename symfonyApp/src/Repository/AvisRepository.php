@@ -18,4 +18,23 @@ class AvisRepository extends DocumentRepository
     {
         return $this->findBy(['isOkay' => $isOkay]);
     }
+
+    public function countAvis($isOkay)
+    {
+        return $this->createQueryBuilder()
+            ->field('isOkay')->equals($isOkay)
+            ->count()
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getPaginatedAvis($start, $size, $isOkay)
+    {
+        return $this->createQueryBuilder()
+            ->field('isOkay')->equals($isOkay) 
+            ->skip($start) 
+            ->limit($size)
+            ->getQuery()
+            ->execute();
+    }
 }

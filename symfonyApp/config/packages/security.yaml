@@ -31,7 +31,11 @@ security:
     access_control:
         # Exemples de contrôle d'accès
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/dashboard, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_EMPLOYE:       ROLE_EMPLOYE
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
 when@test:
     security:

@@ -1,33 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import './Commentaire.css';
-import axios from 'axios';
-import FormAvis from '../FormAvis/FormAvis';
+import React, { useEffect, useState } from 'react'
+import './Commentaire.css'
+import axios from 'axios'
+import FormAvis from '../FormAvis/FormAvis'
 
 const Commentaire = () => {
-  const [commentaire, setCommentaire] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [commentaire, setCommentaire] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     setLoading(false)
-    axios.get(`${process.env.REACT_APP_API_URL}/avis`)
+    axios.get(`${process.env.REACT_APP_API_URL}/avis/get`)
       .then((res) => {
-        setCommentaire(res.data);
+        setCommentaire(res.data.data)
       })
       .catch((error) => {
-        setError('Erreur lors de la récupération des données.');
-        console.error('Erreur :', error);
-      });
-  }, [loading]);
-
-  if (loading) {
-    return <div>Chargement...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+        setError('Erreur lors de la récupération des données.')
+        console.error('Erreur :', error)
+      })
+  }, [loading])
 
   const handlePrevious = () => {
     setCurrentIndex((prevIndex) =>
