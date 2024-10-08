@@ -24,7 +24,7 @@ const Moderation = () => {
   useEffect(() => {
     if (!loading) return
     setBlur(true)
-    axios.get(`${process.env.REACT_APP_API_URL}/avis/get/unverify-avis`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/avis/employe/get/unverify-avis`, {
         params: {
           start: page * SIZE - SIZE,
           size: SIZE,
@@ -65,7 +65,7 @@ const Comment = ({ comment, reload }) => {
 }
 
 const deleteComment = (comment, reload) => {
-  axios.delete(`${process.env.REACT_APP_API_URL}/avis/supprimer/${comment.id}`)
+  axios.delete(`${process.env.REACT_APP_API_URL}/avis/employe/supprimer/${comment.id}`)
     .then(response => {
       reload()
     })
@@ -80,7 +80,7 @@ const deleteComment = (comment, reload) => {
 }
 
 const acceptComment = (comment, reload) => {
-  axios.put(`${process.env.REACT_APP_API_URL}/avis/accept-comment/${comment.id}`)
+  axios.put(`${process.env.REACT_APP_API_URL}/avis/employe/accept-comment/${comment.id}`)
     .then((response) => {
       console.log(response)
       reload() 

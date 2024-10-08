@@ -52,7 +52,7 @@ class CommentaireController extends AbstractController
         return new JsonResponse($json);
     }
 
-    #[Route('/get/unverify-avis', name: 'app_unverify_avis', methods: ['GET'])]
+    #[Route('/employe/get/unverify-avis', name: 'app_unverify_avis', methods: ['GET'])]
     public function getUnverifyAvis(Request $request, AvisRepository $avisRepository): JsonResponse
     {
         $start = $request->query->get('start', 0);
@@ -112,7 +112,7 @@ class CommentaireController extends AbstractController
         return new JsonResponse($data);
     }
 
-    #[Route('/supprimer/{id}', name: 'app_supprimer_avis', methods: ['DELETE'])]
+    #[Route('/employe/supprimer/{id}', name: 'app_supprimer_avis', methods: ['DELETE'])]
     public function supprimerAvis(string $id, AvisRepository $avisRepository): JsonResponse
     {
         try {
@@ -131,7 +131,7 @@ class CommentaireController extends AbstractController
         return new JsonResponse(['message' => 'Commentaire supprimé'], 200);
     }
 
-    #[Route('/accept-comment/{id}', name: 'app_accept_avis', methods: ['PUT'])]
+    #[Route('/employe/accept-comment/{id}', name: 'app_accept_avis', methods: ['PUT'])]
     public function acceptAvis(string $id, Request $req,  AvisRepository $avisRepository): JsonResponse
     {
         $avis = $avisRepository->find(new ObjectId($id));

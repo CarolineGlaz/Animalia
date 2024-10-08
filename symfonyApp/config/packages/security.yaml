@@ -32,7 +32,7 @@ security:
         # Exemples de contrôle d'accès
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/dashboard, roles: ROLE_ADMIN }
-        - { path: ^/avis, roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
+        - { path: ^/avis/employe, roles: [ROLE_ADMIN, ROLE_EMPLOYE] }
 
     role_hierarchy:
         ROLE_EMPLOYE: ROLE_EMPLOYE
