@@ -26,7 +26,6 @@ class DashBoardUserController extends AbstractController
     }
 
     #[Route('/get', name: 'get_dashboard_users', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function getAllUsers(UserRepository $userRepository, Request $request): JsonResponse
     {
         $start = $request->query->get('start', 0);
@@ -55,7 +54,6 @@ class DashBoardUserController extends AbstractController
 
 
     #[Route('/ajouter', name: 'ajouter_user', methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function ajouterUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -78,7 +76,7 @@ class DashBoardUserController extends AbstractController
     }
 
     #[Route('/modifier/{id}', name: 'modifier_dashboard_user', methods: ['PUT'])]
-    #[IsGranted('ROLE_ADMIN')]
+    
     public function modifierUser(int $id, Request $request, UserRepository $userRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -89,7 +87,7 @@ class DashBoardUserController extends AbstractController
         }
 
         $user->setEmail($data['email']);
-        $user->setRoles($data['roles']);
+        $user->setRoles([$data['roles']]);
         
         if (!empty($data['password'])) {
             $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
@@ -106,7 +104,6 @@ class DashBoardUserController extends AbstractController
     }
 
     #[Route('/supprimer/{id}', name: 'supprimer_dashboard_user', methods: ['DELETE'])]
-    #[IsGranted('ROLE_ADMIN')]
     public function supprimerUser(int $id, UserRepository $userRepository): JsonResponse
     {
         $user = $userRepository->find($id);

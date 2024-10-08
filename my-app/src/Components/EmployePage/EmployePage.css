@@ -1,0 +1,70 @@
+.EmployePage {
+  background-color: var(--backg-200);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: var(--text-100);
+  margin: auto;
+  text-align: center;
+}
+
+.EmployePage h2 {
+  font-size: 1.8em;
+  color: var(--primary-100);
+  margin-bottom: 20px;
+}
+
+.CommentList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.CommentItem {
+  background-color: var(--backg-300);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.CommentItem h3 {
+  padding-right: 0.5rem;
+}
+
+.CommentItem p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.DeleteButton{
+  background-color: var(--accent-100);
+  color: var(--text-000);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 10px;
+}
+
+.AcceptButton {
+  background-color: var(--primary-200);
+  color: var(--text-000);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 10px;
+}
+
+.DeleteButton:hover {
+  background-color: var(--accent-200);
+}
+
+.AcceptButton:hover {
+  background-color: var(--primary-300);
+}

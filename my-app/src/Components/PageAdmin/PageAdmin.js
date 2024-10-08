@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import axios, { Axios } from 'axios'
+import axios from 'axios'
 import PageSelector from '../PageSelector/PageSelector'
+import './PageAdmin.css' 
 
 const PageAdmin = () => {
   return (
-    <div className='PageAdmin'>
+    <div className='page-admin'>
       <h2>Modifier un produit</h2>
-      <ProductList></ProductList>
+      <ProductList />
       <h2>Ajouter un produit</h2>
-      <AddProduct></AddProduct>
+      <AddProduct />
       <h2>Modifier un utilisateur</h2>
-      <UserList></UserList>
-      <h2>AJouter un utilisateur</h2>
-      <AddUser></AddUser>
+      <UserList />
+      <h2>Ajouter un utilisateur</h2>
+      <AddUser />
     </div>
   )
 }
 
-const ProductList  = () => {
+const ProductList = () => {
   const [blur, setBlur] = useState(false)
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
-  const [produits, setproduits] = useState([])
+  const [produits, setProduits] = useState([])
   const [loading, setLoading] = useState(false)
-
   const SIZE = 4
 
   useEffect(() => {
@@ -33,11 +33,11 @@ const ProductList  = () => {
       params: {
         start: page * SIZE - SIZE,
         size: SIZE,
-      }
-    },)
+      },
+    })
       .then(res => {
-        let json = res.data
-        setproduits(json.produits)
+        const json = res.data
+        setProduits(json.produits)
         const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
         setMaxPage(parseInt(maxPageNumber))
       })
@@ -47,84 +47,81 @@ const ProductList  = () => {
   }, [page, loading])
 
   return (
-    <div className='ProductList'>
-      { produits.map((produit) => {
-       return <Product key={produit.id} load={setLoading} produit={produit}/>
-      }) }
+    <div className='product-list'>
+      {produits.map((produit) => (
+        <Product key={produit.id} load={setLoading} produit={produit} />
+      ))}
       <PageSelector max={maxPage} page={page} setPage={setPage} />
     </div>
   )
 }
 
 const Product = (props) => {
-
-  const [ProduitData, setProduitData] = useState({
+  const [produitData, setProduitData] = useState({
     nom: '',
     description: '',
     categorie: [],
     prix: 0,
-    img: ''
+    img: '',
   })
 
   const CATEGORIES = ['TOUS', 'CHAT', 'RONGEUR']
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setProduitData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleCategoryChange = (event) => {
-    const selectedCategory = event.target.value;
-
-    setProduitData(prev => ({ ...prev, categorie: [selectedCategory] }));
-  };
+    const selectedCategory = event.target.value
+    setProduitData(prev => ({ ...prev, categorie: [selectedCategory] }))
+  }
 
   useEffect(() => {
     setProduitData(props.produit)
-  }, [])
+  }, [props.produit])
 
-  const DeleteProduct = (e) =>{
+  const DeleteProduct = (e) => {
     e.preventDefault()
     axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/supprimer/${props.produit.id}`)
-    .then(response => {
-      console.log(response)
-      props.load(true)
-    })
-    .catch(error => {
-      if (error.response && error.response.status === 404){
-        console.log(`Erreur lors de la suppression du produit`);
-      } else {
-        console.log(`Autre erreur`);
-      }
-    })
+      .then(response => {
+        console.log(response)
+        props.load(true)
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 404) {
+          console.log(`Erreur lors de la suppression du produit`)
+        } else {
+          console.log(`Autre erreur`)
+        }
+      })
   }
 
   const PutProduct = (e) => {
     e.preventDefault()
-    if(JSON.stringify(props.produit) === JSON.stringify(ProduitData))
-      return
+    if (JSON.stringify(props.produit) === JSON.stringify(produitData)) return
 
-    axios.put(`${process.env.REACT_APP_API_URL}/dashboard/modifier/${props.produit.id}`, ProduitData )
-    .then( response => {
-      console.log(response)
-      props.load(true)
-    })
-    .catch( error =>{
-        if (error.response && error.response.status === 404){
+    axios.put(`${process.env.REACT_APP_API_URL}/dashboard/modifier/${props.produit.id}`, produitData)
+      .then(response => {
+        console.log(response)
+        props.load(true)
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 404) {
           console.log(`Erreur lors de la modification du produit`)
         }
-    })
+      })
   }
 
   return (
-    <div id={`product-${props.produit.id}`}>
-     <form onSubmit={console.log}>
-        <input type="text" name="nom" value={ProduitData.nom} onChange={handleChange} placeholder="Nom" required />
-        <input type="text" name="description" value={ProduitData.description} onChange={handleChange} placeholder="Description" required />
+    <div className='product'>
+      <form onSubmit={console.log}>
+        <input type="text" name="nom" value={produitData.nom} onChange={handleChange} placeholder="Nom" required />
+        <input type="text" name="description" value={produitData.description} onChange={handleChange} placeholder="Description" required />
         
         <select
           name="categorie"
-          value={ProduitData.categorie[0] || ''}
+          value={produitData.categorie[0] || ''}
           onChange={handleCategoryChange}
           required
         >
@@ -135,9 +132,9 @@ const Product = (props) => {
             </option>
           ))}
         </select>
-        <input type="number" name="prix" value={ProduitData.prix} onChange={handleChange} placeholder="Prix" required />
-        <input type="text" name="img" value={ProduitData.img} onChange={handleChange} placeholder="URL de l'image" required />
-        <button type="submit" className={`${(JSON.stringify(props.produit) === JSON.stringify(ProduitData)) && 'blur'}`} onClick={PutProduct} >Mettre à jour</button>
+        <input type="number" name="prix" value={produitData.prix} onChange={handleChange} placeholder="Prix" required />
+        <input type="text" name="img" value={produitData.img} onChange={handleChange} placeholder="URL de l'image" required />
+        <button type="submit" className={`${(JSON.stringify(props.produit) === JSON.stringify(produitData)) && 'blur'}`} onClick={PutProduct}>Mettre à jour</button>
         <button onClick={DeleteProduct}>Supprimer</button>
       </form>
     </div>
@@ -151,7 +148,7 @@ const AddProduct = () => {
     description: '',
     categorie: '',
     prix: '',
-    img: ''
+    img: '',
   })
 
   const handleChange = (e) => {
@@ -178,14 +175,14 @@ const AddProduct = () => {
         description: '',
         categorie: '',
         prix: '',
-        img: ''
+        img: '',
       })
       setSuccess(false)
     }
   }, [success])
 
   return (
-    <div className='AddProduct'>
+    <div className='add-product'>
       <form onSubmit={productAdd}>
         <input type="text" name="nom" value={produitData.nom} onChange={handleChange} placeholder="Nom" required />
         <input type="text" name="description" value={produitData.description} onChange={handleChange} placeholder="Description" required />
@@ -198,14 +195,12 @@ const AddProduct = () => {
   )
 }
 
-
 const UserList = () => {
   const [blur, setBlur] = useState(false)
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
   const [utilisateurs, setUtilisateurs] = useState([])
   const [loading, setLoading] = useState(false)
-
   const SIZE = 4
 
   useEffect(() => {
@@ -217,21 +212,19 @@ const UserList = () => {
         size: SIZE,
       },
     })
-    .then(res => {
-      const json = res.data
-      console.log(json.users)
-      setUtilisateurs(json.users)
-      const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
-      setMaxPage(parseInt(maxPageNumber))
-      console.log(parseInt(maxPageNumber))
-    })
-    .finally(() => {
-      setBlur(false)
-    })
+      .then(res => {
+        const json = res.data
+        setUtilisateurs(json.users)
+        const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
+        setMaxPage(parseInt(maxPageNumber))
+      })
+      .finally(() => {
+        setBlur(false)
+      })
   }, [page, loading])
 
   return (
-    <div className='UserList'>
+    <div className='user-list'>
       {utilisateurs.map((user) => (
         <User key={user.id} load={setLoading} user={user} />
       ))}
@@ -240,9 +233,8 @@ const UserList = () => {
   )
 }
 
-
 const User = (props) => {
-  const [UserData, setUserData] = useState({
+  const [userData, setUserData] = useState({
     email: '',
     password: '',
     nom: '',
@@ -260,7 +252,7 @@ const User = (props) => {
     setUserData(props.user)
   }, [props.user])
 
-    const DeleteUser = (e) => {
+  const DeleteUser = (e) => {
     e.preventDefault()
     axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/user/supprimer/${props.user.id}`)
       .then((response) => {
@@ -269,18 +261,16 @@ const User = (props) => {
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
-          console.log("Erreur lors de la suppression de l'utilisateur");
+          console.log("Erreur lors de la suppression de l'utilisateur")
         } else {
-          console.log('Autre erreur');
+          console.log('Autre erreur')
         }
       })
   }
 
   const PutUser = (e) => {
     e.preventDefault()
-    if (JSON.stringify(props.user) === JSON.stringify(UserData)) return
-
-    axios.put(`${process.env.REACT_APP_API_URL}/dashboard/user/modifier/${props.user.id}`, UserData)
+    axios.put(`${process.env.REACT_APP_API_URL}/dashboard/user/modifier/${props.user.id}`, userData)
       .then((response) => {
         console.log(response)
         props.load(true)
@@ -293,13 +283,14 @@ const User = (props) => {
   }
 
   return (
-    <div id={`user-${props.user.id}`}>
+    <div className='user'>
       <form onSubmit={console.log}>
-        <input type="email" name="email" value={UserData.email} onChange={handleChange} placeholder="Email" required />
-        <input type="text" name="nom" value={UserData.nom} onChange={handleChange} placeholder="Nom" required />
-        <input type="text" name="prenom" value={UserData.prenom} onChange={handleChange} placeholder="Prénom" required />
-        <input type="text" name="adresse" value={UserData.adresse} onChange={handleChange} placeholder="Adresse" required />
-        <button type="submit" className={`${(JSON.stringify(props.user) === JSON.stringify(UserData)) && 'blur'}`} onClick={PutUser}>Mettre à jour</button>
+        <input type="text" name="nom" value={userData.nom} onChange={handleChange} placeholder="Nom" required />
+        <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" required />
+        <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
+        <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" required />
+        <input type="text" name="roles" value={userData.roles} onChange={handleChange} placeholder="Rôles" required />
+        <button type="submit" onClick={PutUser}>Mettre à jour</button>
         <button onClick={DeleteUser}>Supprimer</button>
       </form>
     </div>
@@ -314,7 +305,7 @@ const AddUser = () => {
     nom: '',
     prenom: '',
     adresse: '',
-    roles: []
+    roles: '',
   })
 
   const handleChange = (e) => {
@@ -330,7 +321,7 @@ const AddUser = () => {
         setSuccess(true)
       })
       .catch(error => {
-        console.log("Erreur lors de l'ajout de l'utilisateur")
+        console.log(`Erreur lors de l'ajout de l'utilisateur`)
       })
   }
 
@@ -342,27 +333,24 @@ const AddUser = () => {
         nom: '',
         prenom: '',
         adresse: '',
-        roles: []
+        roles: '',
       })
       setSuccess(false)
     }
   }, [success])
 
   return (
-    <div className='AddUser'>
+    <div className='add-user'>
       <form onSubmit={userAdd}>
-        <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
-        <input type="password" name="password" value={userData.password} onChange={handleChange} placeholder="Mot de passe" required />
         <input type="text" name="nom" value={userData.nom} onChange={handleChange} placeholder="Nom" required />
         <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" required />
+        <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
         <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" required />
+        <input type="text" name="roles" value={userData.roles} onChange={handleChange} placeholder="Rôles" required />
         <button type="submit">Ajouter</button>
       </form>
     </div>
   )
 }
-
-
-
 
 export default PageAdmin

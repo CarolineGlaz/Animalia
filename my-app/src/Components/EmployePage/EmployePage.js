@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import PageSelector from '../PageSelector/PageSelector'
+import './EmployePage.css'
 
 const EmployePage = () => {
   return (
@@ -16,7 +17,7 @@ const Moderation = () => {
   const [maxPage, setMaxPage] = useState(0)
   const [page, setPage] = useState(1)
   const [comments, setComments] = useState([])
-  const [loading, setLoading] = useState(true) 
+  const [loading, setLoading] = useState(true)
 
   const SIZE = 4
 
@@ -24,11 +25,11 @@ const Moderation = () => {
     if (!loading) return
     setBlur(true)
     axios.get(`${process.env.REACT_APP_API_URL}/avis/get/unverify-avis`, {
-      params: {
-        start: page * SIZE - SIZE,
-        size: SIZE,
-      },
-    })
+        params: {
+          start: page * SIZE - SIZE,
+          size: SIZE,
+        },
+      })
       .then((res) => {
         let json = res.data
         console.log(json)
@@ -54,10 +55,11 @@ const Moderation = () => {
 
 const Comment = ({ comment, reload }) => {
   return (
-    <div>
-      <p>{comment.nom}: {comment.contenu}</p>
-      <button onClick={() => deleteComment(comment, reload)}>Supprimer</button>
-      <button onClick={() => acceptComment(comment, reload)}>Accepter</button>
+    <div className='CommentItem'>
+      <h3>{comment.nom} :</h3>
+      <p>{comment.contenu}</p>
+      <button className='AcceptButton' onClick={() => acceptComment(comment, reload)}>Accepter</button>
+      <button className='DeleteButton' onClick={() => deleteComment(comment, reload)}>Supprimer</button>
     </div>
   )
 }
