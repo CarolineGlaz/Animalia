@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import PageSelector from '../PageSelector/PageSelector'
 import './EmployePage.css'
+import { SessionContext } from '../SessionContext'
 
 const EmployePage = () => {
+  const { session } = useContext(SessionContext)
+
+  if (!session.isLogged || !session.isEmploye) {
+    return (<div className='error'>
+              <h1>Vous n'avez pas accès à cette page</h1>
+            </div>);
+  }
+
+
   return (
     <div className='EmployePage'>
       <h2>Modération des commentaires</h2>

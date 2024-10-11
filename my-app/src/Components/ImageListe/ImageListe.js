@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import './ImageListe.css';
 
-const ImageListe = ({ id }) => {
+const ImageListe = ({ id, setParentImageData }) => {
   const [images, setImages] = useState(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
@@ -23,6 +23,11 @@ const ImageListe = ({ id }) => {
         setChargement(false);
       });
   }, [id]);
+
+  useEffect(() => {
+    if(imagesData[currentIndex])
+      setParentImageData(imagesData[currentIndex]);
+  }, [currentIndex, imagesData]);
 
   const handlePrev = () => {
     setCurrentIndex(prevIndex =>

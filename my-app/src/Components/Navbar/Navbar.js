@@ -11,8 +11,14 @@ const Navbar = () => {
         setIsMenuOpen(!isMenuOpen)
     }
 
-    const handleLogout = () => {
-        logout()
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            await logout()
+            window.location.href = '/';
+        } catch (error) {
+            console.error("Erreur lors de la déconnexion:", error);
+        }
     }
 
     return (
@@ -31,10 +37,13 @@ const Navbar = () => {
                     {session.isLogged ? (
                         <>
                             <a className="liens" href="/Compte">Mon compte {session.id}</a>
-                            {session.role === 'ROLE_ADMIN' && (
-                                <a className="liens" href="/Admin">Pannel Admin</a>
+                            {session.isAdmin && (
+                                <a className="liens" href="/admin">Pannel Admin</a>
                             )}
-                            <a onClick={handleLogout} className="liens">Se déconnecter</a>
+                             {session.isEmploye && (
+                                <a className="liens" href="/employe">Pannel Employé</a>
+                            )}
+                            <a onClick={handleLogout} href="/" className="liens">Se déconnecter</a>
                         </>
                     ) : (
                         <a className="liens" href="/login">Se connecter</a>
