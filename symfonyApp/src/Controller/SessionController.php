@@ -33,11 +33,23 @@ class SessionController extends AbstractController
         if (!$session->has('user_id')) {
             return new JsonResponse(['message' => 'La session non trouvée'], 404);
         }
+        $isLogged = $session->get('isLogged');
+        if($isLogged){
+            $sessionData = [
+                'isLogged' => true,
+                'id' => $session->get('user_id'),
+                'isAdmin' => $session->get('isAdmin'),
+                'isEmploye' => $session->get('isEmploye')
+            ];
 
-        $sessionData = [
-            'isLogged' => $session->get('isLogged'),
-            'id' => $session->get('user_id'),
-        ];
+
+
+        } else {
+            $sessionData = [
+                'isLogged' => false,
+                'id' => $session->get('user_id'),
+            ];
+        }
 
         return new JsonResponse(['sessionData' => $sessionData], 200);            
     }

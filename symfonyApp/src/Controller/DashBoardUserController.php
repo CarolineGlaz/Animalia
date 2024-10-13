@@ -40,10 +40,29 @@ class DashBoardUserController extends AbstractController
     
         $users = $userRepository->findAllWithPagination((int) $start, (int) $size);
 
+        $newusers = [];
+        foreach ($users as $user) {
+            $role = "0";
+            if(in_array("ROLE_EMPLOYE", $user->getRoles()))
+                $role = "1";
+            if(in_array("ROLE_ADMIN", $user->getRoles()))
+                $role = "2";
+
+            $newusers[] = [
+                'id' => $user->getId(),
+                'nom' => $user->getNom(),
+                'prenom' => $user->getPrenom(),
+                'email' => $user->getEmail(),
+                'adresse' => $user->getAdresse(),
+                'roles' => $role,
+            ];
+        }
+        
+
         $totalUsers = $userRepository->count([]);
     
         $json = [
-            'users' => $users,
+            'users' => $newusers,
             'countElement' => $totalUsers,
         ];
     
@@ -60,7 +79,12 @@ class DashBoardUserController extends AbstractController
 
         $user = new User();
         $user->setEmail($data['email']);
-        $user->setRoles($data['roles']);
+        $role = $data['roles'];
+        if($role == "1")
+            $user->setRoles(["ROLE_EMPLOYE", "ROLE_USER"]);
+        else
+            $user->setRoles(["ROLE_USER"]);
+        
         
         $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
         $user->setPassword($encodedPassword);
@@ -85,9 +109,16 @@ class DashBoardUserController extends AbstractController
         if (!$user) {
             return new JsonResponse(['message' => 'Utilisateur non trouvé'], 404);
         }
+        if (in_array("ROLE_ADMIN", $user->getRoles())) {
+            return new JsonResponse(['message' => "L'utilisateur à des permissions égale ou supérieur à vous."], 403);
+        }
 
         $user->setEmail($data['email']);
-        $user->setRoles([$data['roles']]);
+        $role = $data['roles'];
+        if($role == "1")
+            $user->setRoles(["ROLE_EMPLOYE", "ROLE_USER"]);
+        else
+            $user->setRoles(["ROLE_USER"]);
         
         if (!empty($data['password'])) {
             $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
@@ -110,6 +141,9 @@ class DashBoardUserController extends AbstractController
 
         if (!$user) {
             return new JsonResponse(['message' => 'Utilisateur non trouvé'], 404);
+        }        
+        if (in_array("ROLE_ADMIN", $user->getRoles())) {
+            return new JsonResponse(['message' => "L'utilisateur à des permissions égale ou supérieur à vous."], 403);
         }
 
         $this->entityManager->remove($user);

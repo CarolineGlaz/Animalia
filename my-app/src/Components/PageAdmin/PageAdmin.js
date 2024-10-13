@@ -99,7 +99,6 @@ const Product = (props) => {
     e.preventDefault()
     axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/supprimer/${props.produit.id}`)
       .then(response => {
-        console.log(response)
         props.load(true)
       })
       .catch(error => {
@@ -117,7 +116,6 @@ const Product = (props) => {
 
     axios.put(`${process.env.REACT_APP_API_URL}/dashboard/modifier/${props.produit.id}`, produitData)
       .then(response => {
-        console.log(response)
         props.load(true)
       })
       .catch(error => {
@@ -276,7 +274,6 @@ const AddProduct = () => {
     e.preventDefault()
     axios.post(`${process.env.REACT_APP_API_URL}/dashboard/ajouter`, produitData)
       .then(response => {
-        console.log(response)
         setSuccess(true)
       })
       .catch(error => {
@@ -372,7 +369,6 @@ const User = (props) => {
     e.preventDefault()
     axios.delete(`${process.env.REACT_APP_API_URL}/dashboard/user/supprimer/${props.user.id}`)
       .then((response) => {
-        console.log(response)
         props.load(true)
       })
       .catch((error) => {
@@ -388,7 +384,6 @@ const User = (props) => {
     e.preventDefault()
     axios.put(`${process.env.REACT_APP_API_URL}/dashboard/user/modifier/${props.user.id}`, userData)
       .then((response) => {
-        console.log(response)
         props.load(true)
       })
       .catch((error) => {
@@ -445,7 +440,6 @@ const AddUser = () => {
     e.preventDefault()
     axios.post(`${process.env.REACT_APP_API_URL}/dashboard/user/ajouter`, userData)
       .then(response => {
-        console.log(response)
         setSuccess(true)
       })
       .catch(error => {

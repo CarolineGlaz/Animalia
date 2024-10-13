@@ -42,7 +42,6 @@ const Moderation = () => {
       })
       .then((res) => {
         let json = res.data
-        console.log(json)
         setComments(json.data)
         const maxPageNumber = (json.countElement + SIZE - 1) / SIZE
         setMaxPage(parseInt(maxPageNumber))
@@ -92,7 +91,6 @@ const deleteComment = (comment, reload) => {
 const acceptComment = (comment, reload) => {
   axios.put(`${process.env.REACT_APP_API_URL}/avis/employe/accept-comment/${comment.id}`)
     .then((response) => {
-      console.log(response)
       reload() 
     })
     .catch(error => {

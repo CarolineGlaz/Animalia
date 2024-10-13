@@ -43,6 +43,19 @@ class SimpleAuthenticator extends AbstractLoginFormAuthenticator
         $session = $request->getSession();
         $user = $token->getUser();
         $userId = $user->getId();
+
+        $isAdmin = false;
+        if(in_array("ROLE_ADMIN", $user->getRoles()))
+            $isAdmin = true;
+
+        $isEmploye = false;
+        if(in_array("ROLE_EMPLOYE", $user->getRoles()))
+            $isEmploye = true;
+
+
+        $session->set('isAdmin', $isAdmin);
+        $session->set('isEmploye', $isEmploye);
+
         $session->set('user_id', $userId);
         $session->set('isLogged', true);
 

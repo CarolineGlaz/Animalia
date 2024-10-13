@@ -20,7 +20,6 @@ export const SessionProvider = ({ children }) => {
   }
 
   const checkSession = () => {
-    console.log("Appel de checkSession")
     axios.get(`${process.env.REACT_APP_API_URL}/session/check`)
       .then(response => {
         console.log('Session trouvée:', response.data)
@@ -64,8 +63,6 @@ export const SessionProvider = ({ children }) => {
         }, {
             withCredentials: true
         })
-
-        console.log(response)
         console.log('Connexion avec succès')
         checkSession()
     } catch (error) {

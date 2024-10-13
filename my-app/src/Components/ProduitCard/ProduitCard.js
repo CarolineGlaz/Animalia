@@ -28,7 +28,7 @@ const ProduitCard = (props) => {
       <label className="produit-nom">{produit.nom}</label>
       <p className="produit-description">{maxDisplayDescription(produit.description)}</p>
       <label className="produit-prix">Prix : {produit.prix}€</label>
-      <AddButtonPanier id={produit.id} setBlur={setBlur} />
+      <AddButtonPanier produit={props.produit} id={produit.id} setBlur={setBlur} />
       <a className="produit-lien" href={`/produit/${Format.formatStringForURL((produit.nom))}/${produit.id}`}>Accéder à la fiche du produit</a>
     </div>
   )

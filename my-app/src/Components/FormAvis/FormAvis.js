@@ -32,7 +32,6 @@ const FormAvis = (props) => {
         })
         props.reload(true)
         setConfirmationMessage('Votre avis a bien été envoyé à notre équipe, merci !')
-        console.log(res.data)
       })
       .catch((e) => {
         console.error('erreur', e)
