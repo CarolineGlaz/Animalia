@@ -39,7 +39,7 @@ const ProduitPage = () => {
           <p className="product-description">{produit.description}</p>
           <p className="product-price">Prix : {produit.prix}€</p>
           <div className="product-actions">
-            <ImageListe id={id} className="btn-view-images" />
+            <ImageListe id={id} setParentImageData={(e) => {}} className="btn-view-images" />
             <AddButtonPanier id={produit.id} className="btn-add-to-cart" setBlur={setBlur}/>
           </div>
         </div>

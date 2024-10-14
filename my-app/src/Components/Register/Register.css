@@ -1,0 +1,82 @@
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--backg-100);
+}
+
+.register-page h2 {
+  margin-bottom: 1rem;
+}
+
+.register-page hr {
+  margin-bottom: 1rem;
+}
+
+.register-form {
+  background-color: var(--backg-200);
+  font-family: "Noto Sans", sans-serif;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--text-100-alpha);
+  max-width: 600px;
+  width: 100%;
+  margin: 0 20px;
+}
+
+.register-form-group {
+  margin-bottom: 20px;
+}
+
+.register-form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--text-200);
+}
+
+.register-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--text-100-alpha);
+  border-radius: 5px;
+  color: var(--text-200);
+}
+
+.register-input:focus {
+  border-color: var(--primary-200);
+  outline: none;
+}
+
+.register-button {
+  width: 30%;
+  padding: 10px;
+  background-color: var(--primary-200);
+  border: none;
+  border-radius: 5px;
+  color: var(--text-000);
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-size: medium;
+}
+
+.register-button:hover {
+  background-color: var(--primary-100);
+}
+
+.register-link {
+  color: var(--accent-100);
+  text-decoration: none;
+  margin-left: 1rem;
+}
+
+.register-link:hover {
+  color: var(--accent-200);
+}
+
+.register-message {
+  color: var(--text-200);
+  margin-top: 10px;
+}

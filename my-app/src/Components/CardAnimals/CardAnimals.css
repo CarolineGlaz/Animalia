@@ -15,6 +15,10 @@
   padding: 16px;
   text-align: center;
   transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -41,6 +45,12 @@
   color: #666;
   margin: 0;
   font-family: "Work Sans", sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  height: 4.5em;
 }
 
 .no-cards {
@@ -49,23 +59,21 @@
   color: #999;
 }
 
-/* Responsive pour les tablettes */
 @media (max-width: 1024px) {
   .card {
-    max-width: 45%; /* Réduction de la largeur pour les tablettes */
+    max-width: 45%;
   }
 }
 
-/* Responsive pour les mobiles */
 @media (max-width: 768px) {
   .card-container {
-    flex-direction: column; /* Les cartes sont empilées verticalement sur mobile */
+    flex-direction: column;
     gap: 1.5rem;
     padding: 1.5rem;
   }
 
   .card {
-    max-width: 90%; /* Les cartes prennent presque toute la largeur de l'écran */
+    max-width: 90%;
     padding: 12px;
   }
 
@@ -75,5 +83,6 @@
 
   .card p {
     font-size: 0.9rem;
+    height: 4.2em;
   }
 }

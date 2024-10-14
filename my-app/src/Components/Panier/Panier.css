@@ -59,6 +59,20 @@
   gap: 10px;
 }
 
+.panier-title{
+  padding: 0px 0px 30px 20px;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.fillpanier {
+  min-height: 80vh;
+}
+
+.filler {
+  min-height: 70vh;
+  width: 1px;
+}
+
 .btn-update, .btn-delete {
   padding: 10px 15px;
   font-size: 16px;
@@ -154,6 +168,6 @@
 
   .cart-total {
     font-size: 16px;
-  }    margin-bottom: 1rem;
-  
+    margin-bottom: 1rem;
+  }
 }

@@ -29,11 +29,14 @@ const Panier = () => {
   }, [needToLoad, session])
 
   return (
-    <div>
+    <div className='fillpanier'>
       <br />
       {
         panier && (panier.length !== 0) ? <ListPanier panier={panier} load={setNeedToLoad} setPanier={setPanier} />
-          : <h3>Aucun produit dans le panier</h3>
+          : <div>
+            <h3 className='panier-title'>Aucun produit dans le panier</h3>
+            <div className='filler'></div>
+            </div>
       }
       <br />
     </div>
