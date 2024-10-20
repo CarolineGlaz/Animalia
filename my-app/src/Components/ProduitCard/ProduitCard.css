@@ -1,4 +1,3 @@
-/* Conteneur pour les cards de produits */
 .produit-container {
   display: flex;
   flex-wrap: wrap;
@@ -7,7 +6,6 @@
   padding: 2rem;
 }
 
-/* Style de chaque card de produit */
 .produit-card {
   background-color: var(--backg-300);
   border-radius: 8px;
@@ -27,7 +25,6 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Image du produit */
 .produit-image {
   width: 100%;
   height: auto;
@@ -35,7 +32,6 @@
   margin-bottom: 1rem;
 }
 
-/* Nom du produit */
 .produit-nom {
   font-weight: bold;
   font-size: 1.15em;
@@ -45,7 +41,6 @@
   font-family: "Noto Sans", sans-serif;
 }
 
-/* Description du produit */
 .produit-description {
   font-size: 1rem;
   color: #666;
@@ -55,7 +50,6 @@
   font-family: "Work Sans", sans-serif;
 }
 
-/* Prix du produit */
 .produit-prix {
   font-size: 1.2rem;
   color: var(--accent-200);
@@ -79,7 +73,6 @@
   text-decoration: underline;
 }
 
-/* Image card */
 .image-card {
   height: 70%;
   display: flex;

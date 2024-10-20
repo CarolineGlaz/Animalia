@@ -8,7 +8,6 @@ const PageSelector = ({ page = 1, max = 1, setPage }) => {
     setPage(pageNumber);
   };
 
-  // Vérifie si setPage est bien passé
   if (typeof setPage !== "function") {
     return <p>Erreur du passage des props</p>;
   }

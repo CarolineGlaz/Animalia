@@ -18,7 +18,7 @@ class SessionController extends AbstractController
             $session->start();
         }
 
-        $userId = time();
+        $userId = -time();
         $session->set('isLogged', false);
         $session->set('user_id', $userId);
 
@@ -41,8 +41,6 @@ class SessionController extends AbstractController
                 'isAdmin' => $session->get('isAdmin'),
                 'isEmploye' => $session->get('isEmploye')
             ];
-
-
 
         } else {
             $sessionData = [

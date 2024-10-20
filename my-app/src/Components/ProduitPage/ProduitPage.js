@@ -9,7 +9,6 @@ const ProduitPage = () => {
   const { nom, id } = useParams()
   const [produit, setProduit] = useState(null)
   const [erreur, setErreur] = useState(null)
-
   const [blur, setBlur] = useState(false)
 
 

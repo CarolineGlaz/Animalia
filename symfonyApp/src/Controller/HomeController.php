@@ -45,7 +45,7 @@ class HomeController extends AbstractController
             'countElement' => $count,
         ];
     
-        return new JsonResponse($json);
+        return new JsonResponse($json, 200);
     }
 
 
@@ -68,7 +68,7 @@ class HomeController extends AbstractController
             'cardAnimals' => $data,
         ];
     
-        return new JsonResponse($json);
+        return new JsonResponse($json, 200);
     }
 
 }

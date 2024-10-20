@@ -16,20 +16,18 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\SimpleAuthenticator
-            entry_point: App\Security\CustomAuthenticationEntryPoint  # Point d'entrée personnalisé
+            entry_point: App\Security\CustomAuthenticationEntryPoint 
             logout:
                 path: app_logout
 
-            # Configuration "Remember Me" avec les options cookies
             remember_me:
                 secret: '%env(APP_SECRET)%'
-                secure: auto     # Activer 'secure' pour les cookies en HTTPS
-                samesite: lax    # Configure SameSite à 'Lax' (peut être 'Strict' ou 'None')
-                httponly: true   # Rend les cookies HTTP-only pour éviter les accès JavaScript
-                lifetime: 3600   # Durée de vie du cookie en secondes (1 heure ici)
+                secure: auto
+                samesite: lax
+                httponly: true
+                lifetime: 3600
 
     access_control:
-        # Exemples de contrôle d'accès
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/dashboard, roles: ROLE_ADMIN }
         - { path: ^/avis/employe, roles: [ROLE_ADMIN, ROLE_EMPLOYE] }

@@ -1,14 +1,9 @@
-/* Styles pour le footer */
 .contentFooter {
   background: var(--primary-100);
   color: var(--text-000);
-  /* Texte blanc pour un bon contraste */
   padding: 2rem 0;
-  /* Espacement généreux en haut et en bas */
   text-align: center;
-  /* Centrage du texte */
   font-family: 'Arial', sans-serif;
-  /* Cohérence de la police avec le reste du site */
   position: relative;
   bottom: 0;
   width: 100%;
@@ -55,7 +50,6 @@
   transition: color 0.3s ease;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer-top {
     flex-direction: column;

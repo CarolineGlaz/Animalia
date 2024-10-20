@@ -30,7 +30,6 @@ const Login = () => {
           <form 
             className="login-form"
             onSubmit={(e) => {
-              e.preventDefault()
               login(e, username, password)
             }} 
             method="POST"

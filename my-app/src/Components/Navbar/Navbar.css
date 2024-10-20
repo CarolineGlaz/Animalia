@@ -62,7 +62,6 @@
   cursor: pointer;
 }
 
-/* Styles pour le menu burger */
 .menu.open .liensContainer {
   display: flex;
   opacity: 1;

@@ -73,7 +73,7 @@ class PanierController extends AbstractController
         }
 
         if ($data['quantite'] == 0) {
-            return $this->supprimerPanier($id);
+            return $this->supprimerPanier($id, $request);
         }
         $panierArticle->setQuantite((int) $data['quantite']);
         $this->entityManager->flush();
@@ -113,14 +113,14 @@ class PanierController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (!Verify::isPositiveNumber($data['quantite'])) {
-            return new JsonResponse(['message' => 'Quantité non trouvée'], 404);
+            return new JsonResponse(['message' => 'Quantité non trouvée'], 400);
         }
         $quantite = (int) $data['quantite'];
 
         $session = $request->getSession();
 
         if(!$session->has('isLogged') || $session->get('isLogged') == false){
-            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 404);
+            return new JsonResponse(['message' => 'Vous êtes pas connecté'], 401);
         }
         $idUtilisateur = $session->get('user_id');
 

@@ -51,7 +51,6 @@ class ProduitImageController extends AbstractController
         $image->setData(file_get_contents($file->getPathname()));
         $image->setalt($alt);
 
-        // Sauvegarder l'entité Image
         $this->entityManager->persist($image);
         $this->entityManager->flush();
 
