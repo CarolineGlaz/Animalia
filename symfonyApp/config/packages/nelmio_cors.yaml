@@ -2,7 +2,7 @@ nelmio_cors:
     defaults:
         allow_credentials: true
         allow_origin:
-            - 'http://localhost:3000'
+            - 'https://cg-animalia.vercel.app/'
         allow_headers:
             - 'content-type'
             - 'authorization'
@@ -16,7 +16,7 @@ nelmio_cors:
     paths:
         '^/':
             allow_origin:
-                - 'http://localhost:3000'
+                - 'https://cg-animalia.vercel.app/'
             allow_headers:
                 - 'content-type'
                 - 'authorization'
