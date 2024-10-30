@@ -39,6 +39,7 @@ function App() {
   );
 }
 
+// Ne pas afficher footer
 function ShowFooter() {
   const location = useLocation();
 
