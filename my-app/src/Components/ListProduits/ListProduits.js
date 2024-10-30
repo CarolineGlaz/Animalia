@@ -16,6 +16,7 @@ const Index = () => {
 
   const SIZE = 4
 
+  // 
   useEffect(() => {
     setBlur(true)
     axios.get(`${process.env.REACT_APP_API_URL}/`, {

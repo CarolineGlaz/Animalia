@@ -16,7 +16,7 @@ const PageAdmin = () => {
   }
 
   return (
-    <div className='page-admin'>
+    <div className='page-admin filler'>
       <h2>Modifier un produit</h2>
       <ProductList />
       <h2>Ajouter un produit</h2>
