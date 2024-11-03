@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Repository\ProduitImageRepository;
+use App\Repository\ProduitsRepository;
 use App\Repository\ImageRepository;
 use App\Entity\Image;
 use App\Entity\ProduitImage;
@@ -18,18 +19,21 @@ class ProduitImageController extends AbstractController
     private $entityManager;
     private $produitImageRepository;
     private $imageRepository;
+    private $produitsRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProduitImageRepository $produitImageRepository, ImageRepository $imageRepository)
+    public function __construct(EntityManagerInterface $entityManager, ProduitsRepository $produitsRopository, ProduitImageRepository $produitImageRepository, ImageRepository $imageRepository)
     {
         $this->entityManager = $entityManager;
         $this->produitImageRepository = $produitImageRepository;
         $this->imageRepository = $imageRepository;
+        $this->produitsRepository = $produitsRopository;
+
     }
 
     #[Route('/add/{produitId}', name: 'upload_image', methods: ['POST'])]
     public function addImage(int $produitId, Request $request): JsonResponse
     {
-        $produit = $this->produitImageRepository->find($produitId);
+        $produit = $this->produitsRepository->find($produitId);
 
         if (!$produit) {
             return new JsonResponse(['message' => 'Produit non trouvé'], 404);
