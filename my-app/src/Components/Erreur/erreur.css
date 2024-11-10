@@ -1,0 +1,9 @@
+.erreur-title{
+  padding: 0px 0px 30px 20px;
+  font-family: "Noto Sans", sans-serif;
+}
+
+.filler {
+  min-height: 70vh;
+  width: 1px;
+}

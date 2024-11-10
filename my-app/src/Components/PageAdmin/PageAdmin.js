@@ -298,7 +298,7 @@ const AddProduct = () => {
     <div className='add-product'>
       <form onSubmit={productAdd}>
         <input type="text" name="nom" value={produitData.nom} onChange={handleChange} placeholder="Nom" required />
-        <input type="text" name="description" value={produitData.description} onChange={handleChange} placeholder="Description" required />
+        <input type="textarea" name="description" value={produitData.description} onChange={handleChange} placeholder="Description" required />
         <input type="text" name="categorie" value={produitData.categorie} onChange={handleChange} placeholder="Catégorie" required />
         <input type="number" name="prix" value={produitData.prix} onChange={handleChange} placeholder="Prix" required />
         <input type="text" name="img" value={produitData.img} onChange={handleChange} placeholder="URL de l'image" required />
@@ -400,6 +400,7 @@ const User = (props) => {
         <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" disabled={userData.roles === "2"} required />
         <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" disabled={userData.roles === "2"} required />
         <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" disabled={userData.roles === "2"} required />
+        <input type="password" name="password" value={userData.password} onChange={handleChange} placeholder="Mot de passe" disabled={userData.roles === "2"} required />
         <select
             name="roles"
             value={userData.roles}

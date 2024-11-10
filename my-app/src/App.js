@@ -30,6 +30,7 @@ function App() {
               <Route path="/register" element={<SignUp />} />
               <Route path="/admin" element={<PageAdmin />} />
               <Route path="/employe" element={<EmployePage />} />
+              <Route path="*" element={<Erreur />} />
             </Routes>
           </div>
           <ShowFooter />
