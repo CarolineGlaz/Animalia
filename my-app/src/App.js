@@ -12,6 +12,7 @@ import Panier from './Components/Panier/Panier'
 import './App.css'
 import PageAdmin from './Components/PageAdmin/PageAdmin'
 import EmployePage from './Components/EmployePage/EmployePage'
+import Erreur from "./Components/Erreur/Erreur"
 
 axios.defaults.withCredentials = true;
 
