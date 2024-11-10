@@ -36,7 +36,7 @@ const Navbar = () => {
                     <a className="liens" href="/Panier"> 🛒 Panier</a>
                     {session.isLogged ? (
                         <>
-                            <a className="liens" href="/Compte">Mon compte {session.id}</a>
+                            <a className="liens" href="/Compte">Mon compte </a>
                             {session.isAdmin && (
                                 <a className="liens" href="/admin">Pannel Admin</a>
                             )}
