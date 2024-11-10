@@ -468,7 +468,7 @@ const AddUser = () => {
         <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" required />
         <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
         <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" required />
-        <input type="password" name="motDePasse" value={userData.password} onChange={handleChange} placeholder="Mot de passe" required />
+        <input type="password" name="password" value={userData.password} onChange={handleChange} placeholder="Mot de passe" required />
         <select
             name="roles"
             value={userData.roles}
