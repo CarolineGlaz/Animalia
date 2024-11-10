@@ -37,7 +37,7 @@ const Login = () => {
             <h2>Connexion</h2>
             <hr></hr>
               <div className="login-form-group">
-                <label className="login-form-label">Username:</label>
+                <label className="login-form-label">Adresse mail:</label>
                 <input
                   className="login-form-input"
                   type="text"
@@ -46,7 +46,7 @@ const Login = () => {
                   required />
               </div>
               <div className="login-form-group">
-                <label className="login-form-label">Password:</label>
+                <label className="login-form-label">Mot de passe:</label>
                   <input 
                     className="login-form-input"
                     type="password" 
@@ -55,7 +55,7 @@ const Login = () => {
                     required 
                   />
               </div>
-              <button className="login-form-button" type="submit">Login</button>
+              <button className="login-form-button" type="submit">Se connecter</button>
               <p>
                 Vous n'avez pas de compte ? <a className="login-form-link" href="/register">Inscrivez-vous ici</a>
               </p>
