@@ -5,7 +5,7 @@ import ImageListe from '../ImageListe/ImageListe'
 import AddButtonPanier from '../AddButtonPanier/AddButtonPanier'
 import './ProduitPage.css'
 
-const ProduitPage = () => {
+const ProduitPage = (props) => {
   const { nom, id } = useParams()
   const [produit, setProduit] = useState(null)
   const [erreur, setErreur] = useState(null)
