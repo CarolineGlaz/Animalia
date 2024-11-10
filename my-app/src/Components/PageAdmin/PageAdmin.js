@@ -400,7 +400,6 @@ const User = (props) => {
         <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" disabled={userData.roles === "2"} required />
         <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" disabled={userData.roles === "2"} required />
         <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" disabled={userData.roles === "2"} required />
-        <input type="password" name="password" value={userData.password} onChange={handleChange} placeholder="Mot de passe" disabled={userData.roles === "2"} required />
         <select
             name="roles"
             value={userData.roles}
@@ -469,6 +468,7 @@ const AddUser = () => {
         <input type="text" name="prenom" value={userData.prenom} onChange={handleChange} placeholder="Prénom" required />
         <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
         <input type="text" name="adresse" value={userData.adresse} onChange={handleChange} placeholder="Adresse" required />
+        <input type="password" name="motDePasse" value={userData.password} onChange={handleChange} placeholder="Mot de passe" required />
         <select
             name="roles"
             value={userData.roles}

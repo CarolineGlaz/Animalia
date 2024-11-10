@@ -4,7 +4,7 @@ function Erreur() {
   return (
     <div>
       <h1>Erreur 404</h1>
-      <h3 className='erreur-title'>Aucun produit dans le panier</h3>
+      <h3 className='erreur-title'>Cette page n'existe pas.</h3>
       <div className='filler'></div>
     </div>
   )
